@@ -89,10 +89,12 @@ jp-doc-agent/
 ├── .env.example              # 設定のテンプレート
 ├── compose.yaml              # PostgreSQL と永続化設定
 ├── alembic.ini
-├── migrations/               # 文書・ページ・チャンク・ベクトルのスキーマ変更
-├── sources/                  # 公開 PDF の取得元とハッシュ
-├── evaluation/questions.json # 開発用の質問・許容証拠ページ・期待値
-├── docker/init.sql           # pgvector の有効化
+├── infra/                    # DB 初期化とスキーマ変更
+│   ├── docker/init.sql        # pgvector の有効化
+│   └── migrations/           # スキーマ変更履歴
+├── resources/                # 公開データの取得元と評価ケース
+│   ├── sources/              # PDF の取得元とハッシュ
+│   └── evaluation/           # 開発用の質問・許容証拠ページ・期待値
 ├── tests/
 │   ├── conftest.py           # 一時 DB schema と PDF・モデル API fixture
 │   ├── test_ingestion.py    # PDF 取り込みの検証
@@ -154,7 +156,7 @@ jp-doc-agent/
 
 `.env`、`.venv/`、`data/`、キャッシュは Git の管理対象外です。Agent・評価・HTTP 問答の JSON レポートは `data/reports/` に保存します。LangGraph は Agent、FastAPI は HTTP API に使用しています。
 
-機能ごとの処理は `ingestion/`、`chunking/`、`embedding/`、`retrieval/`、`answering/`、`agent/`、`evaluation/` に置き、設定・接続・データモデル・モデル API・CLI は共通部分としてパッケージ直下に置きます。`api/` は HTTP の型・ルーティング・エラーを担当します。CLI・Web API・固定ケース評価は同じ `agent/service.py` の問答フローを呼び出し、JSON 保存は `reports.py` で共用します。`chunking/splitter.py` は本文分割、`chunking/service.py` は永続化、`retrieval/service.py` は検索 SQL と出典検証、`answering/` は回答草案と引用検証を担当します。Agent の道具は既存の参照処理を再利用し、回答と道具選択は `llm.py` を共用します。評価の期待値はモデルに渡しません。`migrations/versions/` は適用済み環境を更新するための履歴なので、古いファイルも保持します。
+機能ごとの処理は `ingestion/`、`chunking/`、`embedding/`、`retrieval/`、`answering/`、`agent/`、`evaluation/` に置き、設定・接続・データモデル・モデル API・CLI は共通部分としてパッケージ直下に置きます。`api/` は HTTP の型・ルーティング・エラーを担当します。CLI・Web API・固定ケース評価は同じ `agent/service.py` の問答フローを呼び出し、JSON 保存は `reports.py` で共用します。`chunking/splitter.py` は本文分割、`chunking/service.py` は永続化、`retrieval/service.py` は検索 SQL と出典検証、`answering/` は回答草案と引用検証を担当します。Agent の道具は既存の参照処理を再利用し、回答と道具選択は `llm.py` を共用します。評価の期待値はモデルに渡しません。`infra/migrations/versions/` は適用済み環境を更新するための履歴なので、古いファイルも保持します。
 
 テストは Web API を含む 9 ファイルにまとめ、分割と保存、Embedding API と保存をそれぞれ同じ機能のファイルに統合しました。移行テストも `test_migrations.py` に統合し、重複する引数検証・既定値や固定ケース名だけの確認を削除しました。並行処理・ロールバック・失敗後の再開・原文一致の検証は保持しています。
 
@@ -163,7 +165,7 @@ jp-doc-agent/
 `.env` のパスワードを書き換えても、作成済みの DB のパスワードは変更されません。初期化 SQL は空のボリュームから初めて起動したときにだけ実行されます。既存の DB で拡張を有効にする場合は次のコマンドを使います。
 
 ```bash
-docker compose exec -T db sh -c 'psql -v ON_ERROR_STOP=1 -U "$POSTGRES_USER" -d "$POSTGRES_DB"' < docker/init.sql
+docker compose exec -T db sh -c 'psql -v ON_ERROR_STOP=1 -U "$POSTGRES_USER" -d "$POSTGRES_DB"' < infra/docker/init.sql
 ```
 
 Docker に接続できない場合は Docker Desktop の起動を確認してください。テストの DB fixture は一時 schema を作成・削除するため、その権限が必要です。

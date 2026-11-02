@@ -22,7 +22,7 @@ def check_database(engine: Engine) -> dict[str, str | float]:
         ).scalar_one_or_none()
         if vector_version is None:
             raise RuntimeError(
-                "vector 拡張が有効ではありません。docker/init.sql を実行してください。"
+                "vector 拡張が有効ではありません。infra/docker/init.sql を実行してください。"
             )
 
         distance = connection.execute(

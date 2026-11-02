@@ -1,6 +1,6 @@
 # Agent の固定ケース検証
 
-`evaluation/questions.json` に手動で定義した 3 ケースを保存しています。CLI・Web API と同じ Agent フローで検索・回答・引用・根拠不足を確認し、既知の失敗を記録するための開発用の少数例です。Fujitsu RAG Hard Benchmark の全問題に対する評価や、独立したテスト集合の精度を示すものではありません。
+`resources/evaluation/questions.json` に手動で定義した 3 ケースを保存しています。CLI・Web API と同じ Agent フローで検索・回答・引用・根拠不足を確認し、既知の失敗を記録するための開発用の少数例です。Fujitsu RAG Hard Benchmark の全問題に対する評価や、独立したテスト集合の精度を示すものではありません。
 
 ## 実行と保存
 
@@ -9,7 +9,7 @@ uv run jp-doc-agent evaluate-rag
 
 # ケースと保存先を明示
 uv run jp-doc-agent evaluate-rag \
-  --cases evaluation/questions.json \
+  --cases resources/evaluation/questions.json \
   --output data/reports/agent-evaluation.json
 ```
 

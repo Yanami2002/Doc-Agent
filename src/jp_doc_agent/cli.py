@@ -52,7 +52,7 @@ def build_parser() -> argparse.ArgumentParser:
     batch = commands.add_parser(
         "import-documents", help="取得元一覧に従って PDF をダウンロード・登録"
     )
-    batch.add_argument("--manifest", type=Path, default=Path("sources/fujitsu.json"))
+    batch.add_argument("--manifest", type=Path, default=Path("resources/sources/fujitsu.json"))
     batch.add_argument("--data-dir", type=Path, default=Path("data"))
 
     benchmark = commands.add_parser("fetch-benchmark", help="評価用の正解データと利用規約を取得")
@@ -111,7 +111,9 @@ def build_parser() -> argparse.ArgumentParser:
     agent.add_argument("--max-tool-calls", type=int, default=6, help="道具の呼び出し上限（1〜8）")
     agent.add_argument("--output", type=Path, help="実行記録の保存先（省略時は data/reports）")
     evaluation = commands.add_parser("evaluate-rag", help="固定ケースで検索・回答・引用を検証")
-    evaluation.add_argument("--cases", type=Path, default=Path("evaluation/questions.json"))
+    evaluation.add_argument(
+        "--cases", type=Path, default=Path("resources/evaluation/questions.json")
+    )
     evaluation.add_argument(
         "--output", type=Path, help="結果 JSON の保存先（省略時は data/reports）"
     )
