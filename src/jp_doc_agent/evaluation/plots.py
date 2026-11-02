@@ -75,17 +75,24 @@ def plot_report(report: dict, output_dir: Path) -> None:
     ax = axes[0, 0]
     for i, mode in enumerate(MODES):
         value = summary[mode]["fact_f1"]
+        variation = range_by_repeat(mode, "fact_f1")
         ax.bar(
             i,
             value,
             width=0.58,
             color=COLORS[mode],
             zorder=3,
-            yerr=range_by_repeat(mode, "fact_f1"),
+            yerr=variation,
             capsize=5,
             error_kw={"linewidth": 1.3},
         )
-        ax.text(i, min(1.08, value + 0.055), f"{value:.1%}", ha="center", fontweight="bold")
+        ax.text(
+            i,
+            min(1.08, value + variation[1][0] + 0.04),
+            f"{value:.1%}",
+            ha="center",
+            fontweight="bold",
+        )
     ax.set_xticks(range(3), [LABELS[m] for m in MODES])
     ax.set_title("A. Reference-guided Fact F1", loc="left")
     ax.set_ylabel("Mean over 8 answerable questions")
@@ -115,13 +122,20 @@ def plot_report(report: dict, output_dir: Path) -> None:
             x = i + (j - 0.5) * 0.32
             ax.bar(x, value, width=0.3, color=COLORS[mode], alpha=1 if j == 0 else 0.44, zorder=3)
             ax.text(x, value + 0.025, f"{value:.0%}", ha="center", fontsize=10)
-    ax.set_xticks([0, 1], [LABELS["single_rag"], LABELS["agent"]])
+    ax.set_xticks(
+        [0, 1],
+        [
+            f"{LABELS[m]}\n(n={summary[m]['grounding_scored_answers']})"
+            for m in ("single_rag", "agent")
+        ],
+    )
     ax.set_title("C. Context / citation support (LLM judge)", loc="left")
-    ax.set_ylabel("Answered outputs only; No RAG is N/A")
+    ax.set_ylabel("Valid scored outputs; No RAG is N/A")
     ax.plot([], [], color="#52637A", linewidth=9, label="Context support (solid)")
     ax.plot([], [], color="#B2BDCA", linewidth=9, label="Citation support (light)")
-    ax.legend(loc="upper left", frameon=False, fontsize=9)
+    ax.legend(loc="upper left", frameon=False, fontsize=9, ncol=2)
     percentage_axis(ax)
+    ax.set_ylim(0, 1.3)
 
     ax = axes[1, 1]
     for i, mode in enumerate(MODES):
@@ -222,3 +236,5 @@ def _save(figure, stem):
     figure.savefig(
         stem.with_suffix(".svg"), facecolor="white", metadata={"Creator": "Doc-Agent", "Date": None}
     )
+    svg = stem.with_suffix(".svg")
+    svg.write_text("\n".join(line.rstrip() for line in svg.read_text().splitlines()) + "\n")

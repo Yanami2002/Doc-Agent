@@ -1,0 +1,2706 @@
+{
+  "configuration": {
+    "version": "rag-comparison-v1",
+    "case_digest": "dd3c72f3ca393ae7d2ef5fe7512638fd9a58abf07efca47fd3fed58a874830b4",
+    "rubric_digest": "bc15db2bdad95d0482bee32df5effdb57b608c89078c83df0468d5dd8ceab657",
+    "model": "gpt-4.1-mini-2025-04-14",
+    "answer_max_output_tokens": 2048,
+    "judge_model": "gpt-4.1-mini-2025-04-14",
+    "judge_max_output_tokens": 4096,
+    "embedding_profile_id": "98e69c86f6adbd59bbd4b0ce5295025382ed68f732ec0dafdb625ad5399909f4",
+    "repeats": 3,
+    "seed": 20261102,
+    "corpus": [
+      {
+        "sha256": "23695bb34953a27db042eed751b80211962db5269232775ce8b67f7dfa019a07",
+        "title": "Fujitsu-ShareholdersMTG-FY2023.pdf",
+        "page_count": 20,
+        "parser_version": "pdfminer/20260107;pypdf/6.19.0;text-v1",
+        "chunking_signature": "b99366c8a28819dc080aafd10656cf0b43cdd0ebd8c2d0ed13eddcaaedb16ffa",
+        "chunking_config": {
+          "algorithm": "RecursiveCharacterTextSplitter",
+          "policy_version": "document-token-v3",
+          "page_delimiter": "\n",
+          "library_version": "1.1.2",
+          "chunk_size": 300,
+          "chunk_overlap": 30,
+          "length_unit": "tokens",
+          "embedding_model": "text-embedding-3-small",
+          "tokenizer": "tiktoken",
+          "tokenizer_version": "0.14.0",
+          "encoding": "cl100k_base",
+          "content_token_budget": 270,
+          "overlap_policy": "unicode-safe-prefix-context",
+          "separators": [
+            "\n\n",
+            "。",
+            "！",
+            "？",
+            "\n",
+            "、",
+            " ",
+            ""
+          ],
+          "keep_separator": "end",
+          "strip_whitespace": false
+        }
+      },
+      {
+        "sha256": "2995aaa2bb1e22298fc329fad1d4376448b689f2b85a1fe6495978a1181455ed",
+        "title": "Fujitsu-Databook-FY2020-Organization.pdf",
+        "page_count": 2,
+        "parser_version": "pdfminer/20260107;pypdf/6.19.0;text-v1",
+        "chunking_signature": "f85eb1d0e6d0f7dd94478eef7827dbec8c3ee0e04c0d9cab017c39f9db7194bb",
+        "chunking_config": {
+          "algorithm": "RecursiveCharacterTextSplitter",
+          "policy_version": "document-token-v3",
+          "page_delimiter": "\n",
+          "library_version": "1.1.2",
+          "chunk_size": 300,
+          "chunk_overlap": 30,
+          "length_unit": "tokens",
+          "embedding_model": "text-embedding-3-small",
+          "tokenizer": "tiktoken",
+          "tokenizer_version": "0.14.0",
+          "encoding": "cl100k_base",
+          "content_token_budget": 270,
+          "overlap_policy": "unicode-safe-prefix-context",
+          "separators": [
+            "\n\n",
+            "。",
+            "！",
+            "？",
+            "\n",
+            "、",
+            " ",
+            ""
+          ],
+          "keep_separator": "end",
+          "strip_whitespace": false
+        }
+      },
+      {
+        "sha256": "8b2b3046b8081e1810fda6c86be27a5c802def782e64678047a0ea55ad70e17a",
+        "title": "2024年度第2四半期決算概要.pdf",
+        "page_count": 42,
+        "parser_version": "pdfminer/20260107;pypdf/6.19.0;text-v1",
+        "chunking_signature": "e6bea361d0a989b5b98488e49ed4f634026bfcea2a5815a458842f59ba019d24",
+        "chunking_config": {
+          "algorithm": "RecursiveCharacterTextSplitter",
+          "policy_version": "document-token-v3",
+          "page_delimiter": "\n",
+          "library_version": "1.1.2",
+          "chunk_size": 300,
+          "chunk_overlap": 30,
+          "length_unit": "tokens",
+          "embedding_model": "text-embedding-3-small",
+          "tokenizer": "tiktoken",
+          "tokenizer_version": "0.14.0",
+          "encoding": "cl100k_base",
+          "content_token_budget": 270,
+          "overlap_policy": "unicode-safe-prefix-context",
+          "separators": [
+            "\n\n",
+            "。",
+            "！",
+            "？",
+            "\n",
+            "、",
+            " ",
+            ""
+          ],
+          "keep_separator": "end",
+          "strip_whitespace": false
+        }
+      },
+      {
+        "sha256": "9274456a44d506682e1cff97d64ba680bdcd8ec074d0ceb0e6115357c9f77536",
+        "title": "富士通統合レポート2024.pdf",
+        "page_count": 93,
+        "parser_version": "pdfminer/20260107;pypdf/6.19.0;text-v1",
+        "chunking_signature": "e4da6ee022816530b5b1faca80ce5f7056d1323680c983038858f7210234d951",
+        "chunking_config": {
+          "algorithm": "RecursiveCharacterTextSplitter",
+          "policy_version": "document-token-v3",
+          "page_delimiter": "\n",
+          "library_version": "1.1.2",
+          "chunk_size": 300,
+          "chunk_overlap": 30,
+          "length_unit": "tokens",
+          "embedding_model": "text-embedding-3-small",
+          "tokenizer": "tiktoken",
+          "tokenizer_version": "0.14.0",
+          "encoding": "cl100k_base",
+          "content_token_budget": 270,
+          "overlap_policy": "unicode-safe-prefix-context",
+          "separators": [
+            "\n\n",
+            "。",
+            "！",
+            "？",
+            "\n",
+            "、",
+            " ",
+            ""
+          ],
+          "keep_separator": "end",
+          "strip_whitespace": false
+        }
+      },
+      {
+        "sha256": "eb8bc065a9cd758ca12a7084d446508ae27a5eaa93f6a954db8189a127b3f67a",
+        "title": "Fujitsu-IFRS-FY2024-3Q.pdf",
+        "page_count": 13,
+        "parser_version": "pdfminer/20260107;pypdf/6.19.0;text-v1",
+        "chunking_signature": "19f273c4a28de5ca623917ba9f38fc4885308f6f4fcad9e7709b1c097a0c991b",
+        "chunking_config": {
+          "algorithm": "RecursiveCharacterTextSplitter",
+          "policy_version": "document-token-v3",
+          "page_delimiter": "\n",
+          "library_version": "1.1.2",
+          "chunk_size": 300,
+          "chunk_overlap": 30,
+          "length_unit": "tokens",
+          "embedding_model": "text-embedding-3-small",
+          "tokenizer": "tiktoken",
+          "tokenizer_version": "0.14.0",
+          "encoding": "cl100k_base",
+          "content_token_budget": 270,
+          "overlap_policy": "unicode-safe-prefix-context",
+          "separators": [
+            "\n\n",
+            "。",
+            "！",
+            "？",
+            "\n",
+            "、",
+            " ",
+            ""
+          ],
+          "keep_separator": "end",
+          "strip_whitespace": false
+        }
+      }
+    ],
+    "implementation_digest": "8301ac6811ced56116cc40a1d029fd77a298644a62c576e3496e3b853ea849cf"
+  },
+  "started_at": "2026-11-02T02:33:47.660981+00:00",
+  "finished_at": "2026-11-02T02:41:48.289310+00:00",
+  "code_revision": "3538fbb1bee3c9cad512cc5586fad51c47d9fb07",
+  "summary": {
+    "modes": {
+      "no_rag": {
+        "trials": 30,
+        "generation_errors": 0,
+        "judge_errors": 0,
+        "fact_precision": 0.0,
+        "fact_recall": 0.0,
+        "fact_f1": 0.0,
+        "response_relevance": 0.0,
+        "faithfulness": null,
+        "citation_support": null,
+        "grounding_scored_answers": 0,
+        "grounding_inconsistencies": 0,
+        "task_success_rate": 0.2,
+        "correct_abstention_rate": 1,
+        "mean_latency_seconds": 1.1160333333333334,
+        "mean_model_tokens": 350.7,
+        "mean_embedding_tokens": 0,
+        "judge_tokens": 0
+      },
+      "single_rag": {
+        "trials": 30,
+        "generation_errors": 0,
+        "judge_errors": 1,
+        "fact_precision": 0.625,
+        "fact_recall": 0.6111111111111112,
+        "fact_f1": 0.6166666666666667,
+        "response_relevance": 0.6041666666666666,
+        "faithfulness": 1,
+        "citation_support": 1,
+        "grounding_scored_answers": 15,
+        "grounding_inconsistencies": 0,
+        "task_success_rate": 0.6666666666666666,
+        "correct_abstention_rate": 1,
+        "mean_latency_seconds": 2.5111,
+        "mean_model_tokens": 5011.166666666667,
+        "mean_embedding_tokens": 48.9,
+        "judge_tokens": 96617
+      },
+      "agent": {
+        "trials": 30,
+        "generation_errors": 2,
+        "judge_errors": 1,
+        "fact_precision": 0.7173611111111111,
+        "fact_recall": 0.6545138888888888,
+        "fact_f1": 0.6621034910508594,
+        "response_relevance": 0.7881944444444444,
+        "faithfulness": 0.9,
+        "citation_support": 0.9,
+        "grounding_scored_answers": 20,
+        "grounding_inconsistencies": 1,
+        "task_success_rate": 0.6333333333333333,
+        "correct_abstention_rate": 1,
+        "mean_latency_seconds": 5.91,
+        "mean_model_tokens": 12063.8,
+        "mean_embedding_tokens": 54.9,
+        "judge_tokens": 145555
+      }
+    },
+    "deltas_vs_no_rag": {
+      "single_rag": {
+        "fact_f1_delta": 0.6166666666666667,
+        "relative_change": null,
+        "paired_case_bootstrap_95ci": [
+          0.325,
+          0.9
+        ]
+      },
+      "agent": {
+        "fact_f1_delta": 0.6621034910508594,
+        "relative_change": null,
+        "paired_case_bootstrap_95ci": [
+          0.361598440545809,
+          0.9121034910508594
+        ]
+      }
+    }
+  },
+  "aggregation_audit": {
+    "version": "grounding-consistency-v1",
+    "source_report_sha256": "81c9d482964914b3957683de1f6027629353fa823785d843863e0e5b4f4b4924",
+    "code_revision": "943b077d0ebab031ffb425cf98ad5033168d0552",
+    "audited_at": "2026-11-02T02:48:49.701744+00:00",
+    "affected_grounding_scores": [
+      {
+        "mode": "agent",
+        "case_id": "authored-ubiquitous-profit",
+        "repeat": 1
+      }
+    ],
+    "fact_scores_unchanged": true,
+    "method": "Citation support implies context support. Inconsistent auxiliary scores are missing; no generation or judge calls repeated."
+  },
+  "retrieval_curves": [
+    {
+      "case_id": "fujitsu-66",
+      "relevant_chunks": 11,
+      "points": [
+        {
+          "k": 1,
+          "hit_rate": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "ndcg": 0.0
+        },
+        {
+          "k": 2,
+          "hit_rate": 1.0,
+          "mrr": 0.5,
+          "precision": 0.5,
+          "recall": 0.09090909090909091,
+          "ndcg": 0.38685280723454163
+        },
+        {
+          "k": 3,
+          "hit_rate": 1.0,
+          "mrr": 0.5,
+          "precision": 0.3333333333333333,
+          "recall": 0.09090909090909091,
+          "ndcg": 0.2960819109658652
+        },
+        {
+          "k": 4,
+          "hit_rate": 1.0,
+          "mrr": 0.5,
+          "precision": 0.25,
+          "recall": 0.09090909090909091,
+          "ndcg": 0.24630238874073
+        },
+        {
+          "k": 5,
+          "hit_rate": 1.0,
+          "mrr": 0.5,
+          "precision": 0.2,
+          "recall": 0.09090909090909091,
+          "ndcg": 0.21398626473452756
+        },
+        {
+          "k": 6,
+          "hit_rate": 1.0,
+          "mrr": 0.5,
+          "precision": 0.16666666666666666,
+          "recall": 0.09090909090909091,
+          "ndcg": 0.1909208661789347
+        },
+        {
+          "k": 7,
+          "hit_rate": 1.0,
+          "mrr": 0.5,
+          "precision": 0.14285714285714285,
+          "recall": 0.09090909090909091,
+          "ndcg": 0.17342765698823948
+        },
+        {
+          "k": 8,
+          "hit_rate": 1.0,
+          "mrr": 0.5,
+          "precision": 0.125,
+          "recall": 0.09090909090909091,
+          "ndcg": 0.15958907712489637
+        },
+        {
+          "k": 9,
+          "hit_rate": 1.0,
+          "mrr": 0.5,
+          "precision": 0.1111111111111111,
+          "recall": 0.09090909090909091,
+          "ndcg": 0.14829723057014912
+        },
+        {
+          "k": 10,
+          "hit_rate": 1.0,
+          "mrr": 0.5,
+          "precision": 0.1,
+          "recall": 0.09090909090909091,
+          "ndcg": 0.13886244387355454
+        }
+      ]
+    },
+    {
+      "case_id": "fujitsu-77",
+      "relevant_chunks": 58,
+      "points": [
+        {
+          "k": 1,
+          "hit_rate": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "ndcg": 0.0
+        },
+        {
+          "k": 2,
+          "hit_rate": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "ndcg": 0.0
+        },
+        {
+          "k": 3,
+          "hit_rate": 1.0,
+          "mrr": 0.3333333333333333,
+          "precision": 0.3333333333333333,
+          "recall": 0.017241379310344827,
+          "ndcg": 0.23463936301137822
+        },
+        {
+          "k": 4,
+          "hit_rate": 1.0,
+          "mrr": 0.3333333333333333,
+          "precision": 0.5,
+          "recall": 0.034482758620689655,
+          "ndcg": 0.36331756126716835
+        },
+        {
+          "k": 5,
+          "hit_rate": 1.0,
+          "mrr": 0.3333333333333333,
+          "precision": 0.4,
+          "recall": 0.034482758620689655,
+          "ndcg": 0.3156484524795145
+        },
+        {
+          "k": 6,
+          "hit_rate": 1.0,
+          "mrr": 0.3333333333333333,
+          "precision": 0.3333333333333333,
+          "recall": 0.034482758620689655,
+          "ndcg": 0.28162497265977743
+        },
+        {
+          "k": 7,
+          "hit_rate": 1.0,
+          "mrr": 0.3333333333333333,
+          "precision": 0.2857142857142857,
+          "recall": 0.034482758620689655,
+          "ndcg": 0.2558209594125084
+        },
+        {
+          "k": 8,
+          "hit_rate": 1.0,
+          "mrr": 0.3333333333333333,
+          "precision": 0.375,
+          "recall": 0.05172413793103448,
+          "ndcg": 0.31520238256403266
+        },
+        {
+          "k": 9,
+          "hit_rate": 1.0,
+          "mrr": 0.3333333333333333,
+          "precision": 0.4444444444444444,
+          "recall": 0.06896551724137931,
+          "ndcg": 0.36365575892569807
+        },
+        {
+          "k": 10,
+          "hit_rate": 1.0,
+          "mrr": 0.3333333333333333,
+          "precision": 0.4,
+          "recall": 0.06896551724137931,
+          "ndcg": 0.34051969290975714
+        }
+      ]
+    },
+    {
+      "case_id": "authored-uvance-orders",
+      "relevant_chunks": 7,
+      "points": [
+        {
+          "k": 1,
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "precision": 1.0,
+          "recall": 0.14285714285714285,
+          "ndcg": 1.0
+        },
+        {
+          "k": 2,
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "precision": 0.5,
+          "recall": 0.14285714285714285,
+          "ndcg": 0.6131471927654584
+        },
+        {
+          "k": 3,
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "precision": 0.6666666666666666,
+          "recall": 0.2857142857142857,
+          "ndcg": 0.7039180890341347
+        },
+        {
+          "k": 4,
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "precision": 0.5,
+          "recall": 0.2857142857142857,
+          "ndcg": 0.5855700749881525
+        },
+        {
+          "k": 5,
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "precision": 0.4,
+          "recall": 0.2857142857142857,
+          "ndcg": 0.5087403079104241
+        },
+        {
+          "k": 6,
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "precision": 0.3333333333333333,
+          "recall": 0.2857142857142857,
+          "ndcg": 0.45390362024822023
+        },
+        {
+          "k": 7,
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "precision": 0.2857142857142857,
+          "recall": 0.2857142857142857,
+          "ndcg": 0.4123144993714363
+        },
+        {
+          "k": 8,
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "precision": 0.25,
+          "recall": 0.2857142857142857,
+          "ndcg": 0.4123144993714363
+        },
+        {
+          "k": 9,
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "precision": 0.3333333333333333,
+          "recall": 0.42857142857142855,
+          "ndcg": 0.4950605206767564
+        },
+        {
+          "k": 10,
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "precision": 0.3,
+          "recall": 0.42857142857142855,
+          "ndcg": 0.4950605206767564
+        }
+      ]
+    },
+    {
+      "case_id": "authored-ubiquitous-profit",
+      "relevant_chunks": 7,
+      "points": [
+        {
+          "k": 1,
+          "hit_rate": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "ndcg": 0.0
+        },
+        {
+          "k": 2,
+          "hit_rate": 1.0,
+          "mrr": 0.5,
+          "precision": 0.5,
+          "recall": 0.14285714285714285,
+          "ndcg": 0.38685280723454163
+        },
+        {
+          "k": 3,
+          "hit_rate": 1.0,
+          "mrr": 0.5,
+          "precision": 0.3333333333333333,
+          "recall": 0.14285714285714285,
+          "ndcg": 0.2960819109658652
+        },
+        {
+          "k": 4,
+          "hit_rate": 1.0,
+          "mrr": 0.5,
+          "precision": 0.25,
+          "recall": 0.14285714285714285,
+          "ndcg": 0.24630238874073
+        },
+        {
+          "k": 5,
+          "hit_rate": 1.0,
+          "mrr": 0.5,
+          "precision": 0.2,
+          "recall": 0.14285714285714285,
+          "ndcg": 0.21398626473452756
+        },
+        {
+          "k": 6,
+          "hit_rate": 1.0,
+          "mrr": 0.5,
+          "precision": 0.16666666666666666,
+          "recall": 0.14285714285714285,
+          "ndcg": 0.1909208661789347
+        },
+        {
+          "k": 7,
+          "hit_rate": 1.0,
+          "mrr": 0.5,
+          "precision": 0.14285714285714285,
+          "recall": 0.14285714285714285,
+          "ndcg": 0.17342765698823948
+        },
+        {
+          "k": 8,
+          "hit_rate": 1.0,
+          "mrr": 0.5,
+          "precision": 0.125,
+          "recall": 0.14285714285714285,
+          "ndcg": 0.17342765698823948
+        },
+        {
+          "k": 9,
+          "hit_rate": 1.0,
+          "mrr": 0.5,
+          "precision": 0.1111111111111111,
+          "recall": 0.14285714285714285,
+          "ndcg": 0.17342765698823948
+        },
+        {
+          "k": 10,
+          "hit_rate": 1.0,
+          "mrr": 0.5,
+          "precision": 0.2,
+          "recall": 0.2857142857142857,
+          "ndcg": 0.2528847364210069
+        }
+      ]
+    },
+    {
+      "case_id": "authored-capital-investment",
+      "relevant_chunks": 5,
+      "points": [
+        {
+          "k": 1,
+          "hit_rate": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "ndcg": 0.0
+        },
+        {
+          "k": 2,
+          "hit_rate": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "ndcg": 0.0
+        },
+        {
+          "k": 3,
+          "hit_rate": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "ndcg": 0.0
+        },
+        {
+          "k": 4,
+          "hit_rate": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "ndcg": 0.0
+        },
+        {
+          "k": 5,
+          "hit_rate": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "ndcg": 0.0
+        },
+        {
+          "k": 6,
+          "hit_rate": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "ndcg": 0.0
+        },
+        {
+          "k": 7,
+          "hit_rate": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "ndcg": 0.0
+        },
+        {
+          "k": 8,
+          "hit_rate": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "ndcg": 0.0
+        },
+        {
+          "k": 9,
+          "hit_rate": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "ndcg": 0.0
+        },
+        {
+          "k": 10,
+          "hit_rate": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "ndcg": 0.0
+        }
+      ]
+    },
+    {
+      "case_id": "authored-gk-acquisition",
+      "relevant_chunks": 5,
+      "points": [
+        {
+          "k": 1,
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "precision": 1.0,
+          "recall": 0.2,
+          "ndcg": 1.0
+        },
+        {
+          "k": 2,
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "precision": 0.5,
+          "recall": 0.2,
+          "ndcg": 0.6131471927654584
+        },
+        {
+          "k": 3,
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "precision": 0.3333333333333333,
+          "recall": 0.2,
+          "ndcg": 0.46927872602275644
+        },
+        {
+          "k": 4,
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "precision": 0.25,
+          "recall": 0.2,
+          "ndcg": 0.3903800499921017
+        },
+        {
+          "k": 5,
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "precision": 0.2,
+          "recall": 0.2,
+          "ndcg": 0.3391602052736161
+        },
+        {
+          "k": 6,
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "precision": 0.16666666666666666,
+          "recall": 0.2,
+          "ndcg": 0.3391602052736161
+        },
+        {
+          "k": 7,
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "precision": 0.14285714285714285,
+          "recall": 0.2,
+          "ndcg": 0.3391602052736161
+        },
+        {
+          "k": 8,
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "precision": 0.125,
+          "recall": 0.2,
+          "ndcg": 0.3391602052736161
+        },
+        {
+          "k": 9,
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "precision": 0.1111111111111111,
+          "recall": 0.2,
+          "ndcg": 0.3391602052736161
+        },
+        {
+          "k": 10,
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "precision": 0.1,
+          "recall": 0.2,
+          "ndcg": 0.3391602052736161
+        }
+      ]
+    },
+    {
+      "case_id": "authored-plan-themes",
+      "relevant_chunks": 10,
+      "points": [
+        {
+          "k": 1,
+          "hit_rate": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "ndcg": 0.0
+        },
+        {
+          "k": 2,
+          "hit_rate": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "ndcg": 0.0
+        },
+        {
+          "k": 3,
+          "hit_rate": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "ndcg": 0.0
+        },
+        {
+          "k": 4,
+          "hit_rate": 1.0,
+          "mrr": 0.25,
+          "precision": 0.25,
+          "recall": 0.1,
+          "ndcg": 0.16812753627111746
+        },
+        {
+          "k": 5,
+          "hit_rate": 1.0,
+          "mrr": 0.25,
+          "precision": 0.2,
+          "recall": 0.1,
+          "ndcg": 0.14606834984270645
+        },
+        {
+          "k": 6,
+          "hit_rate": 1.0,
+          "mrr": 0.25,
+          "precision": 0.16666666666666666,
+          "recall": 0.1,
+          "ndcg": 0.13032376591037065
+        },
+        {
+          "k": 7,
+          "hit_rate": 1.0,
+          "mrr": 0.25,
+          "precision": 0.14285714285714285,
+          "recall": 0.1,
+          "ndcg": 0.11838279295536293
+        },
+        {
+          "k": 8,
+          "hit_rate": 1.0,
+          "mrr": 0.25,
+          "precision": 0.125,
+          "recall": 0.1,
+          "ndcg": 0.1089364926177559
+        },
+        {
+          "k": 9,
+          "hit_rate": 1.0,
+          "mrr": 0.25,
+          "precision": 0.1111111111111111,
+          "recall": 0.1,
+          "ndcg": 0.1012286082123002
+        },
+        {
+          "k": 10,
+          "hit_rate": 1.0,
+          "mrr": 0.25,
+          "precision": 0.1,
+          "recall": 0.1,
+          "ndcg": 0.09478836436955078
+        }
+      ]
+    },
+    {
+      "case_id": "authored-value-pricing",
+      "relevant_chunks": 11,
+      "points": [
+        {
+          "k": 1,
+          "hit_rate": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "ndcg": 0.0
+        },
+        {
+          "k": 2,
+          "hit_rate": 1.0,
+          "mrr": 0.5,
+          "precision": 0.5,
+          "recall": 0.09090909090909091,
+          "ndcg": 0.38685280723454163
+        },
+        {
+          "k": 3,
+          "hit_rate": 1.0,
+          "mrr": 0.5,
+          "precision": 0.3333333333333333,
+          "recall": 0.09090909090909091,
+          "ndcg": 0.2960819109658652
+        },
+        {
+          "k": 4,
+          "hit_rate": 1.0,
+          "mrr": 0.5,
+          "precision": 0.25,
+          "recall": 0.09090909090909091,
+          "ndcg": 0.24630238874073
+        },
+        {
+          "k": 5,
+          "hit_rate": 1.0,
+          "mrr": 0.5,
+          "precision": 0.2,
+          "recall": 0.09090909090909091,
+          "ndcg": 0.21398626473452756
+        },
+        {
+          "k": 6,
+          "hit_rate": 1.0,
+          "mrr": 0.5,
+          "precision": 0.16666666666666666,
+          "recall": 0.09090909090909091,
+          "ndcg": 0.1909208661789347
+        },
+        {
+          "k": 7,
+          "hit_rate": 1.0,
+          "mrr": 0.5,
+          "precision": 0.14285714285714285,
+          "recall": 0.09090909090909091,
+          "ndcg": 0.17342765698823948
+        },
+        {
+          "k": 8,
+          "hit_rate": 1.0,
+          "mrr": 0.5,
+          "precision": 0.125,
+          "recall": 0.09090909090909091,
+          "ndcg": 0.15958907712489637
+        },
+        {
+          "k": 9,
+          "hit_rate": 1.0,
+          "mrr": 0.5,
+          "precision": 0.2222222222222222,
+          "recall": 0.18181818181818182,
+          "ndcg": 0.21905299129122976
+        },
+        {
+          "k": 10,
+          "hit_rate": 1.0,
+          "mrr": 0.5,
+          "precision": 0.2,
+          "recall": 0.18181818181818182,
+          "ndcg": 0.2051166673279436
+        }
+      ]
+    }
+  ],
+  "trials": [
+    {
+      "repeat": 0,
+      "case_id": "authored-uvance-orders",
+      "mode": "single_rag",
+      "expected_status": "answered",
+      "status": "answered",
+      "metrics": {
+        "fact_precision": 1,
+        "fact_recall": 1,
+        "fact_f1": 1.0,
+        "faithfulness": 1,
+        "citation_support": 1,
+        "grounding_consistent": true,
+        "response_relevance": 1,
+        "task_success": true
+      },
+      "judge_error": false,
+      "latency_seconds": 5.678,
+      "model_tokens": 4395
+    },
+    {
+      "repeat": 0,
+      "case_id": "authored-uvance-orders",
+      "mode": "no_rag",
+      "expected_status": "answered",
+      "status": "insufficient_evidence",
+      "metrics": {
+        "fact_precision": 0.0,
+        "fact_recall": 0.0,
+        "fact_f1": 0.0,
+        "faithfulness": null,
+        "citation_support": null,
+        "response_relevance": 0.0,
+        "task_success": false
+      },
+      "judge_error": false,
+      "latency_seconds": 1.568,
+      "model_tokens": 400
+    },
+    {
+      "repeat": 0,
+      "case_id": "authored-uvance-orders",
+      "mode": "agent",
+      "expected_status": "answered",
+      "status": "answered",
+      "metrics": {
+        "fact_precision": 1,
+        "fact_recall": 1,
+        "fact_f1": 1.0,
+        "faithfulness": 1,
+        "citation_support": 1,
+        "grounding_consistent": true,
+        "response_relevance": 1,
+        "task_success": true
+      },
+      "judge_error": false,
+      "latency_seconds": 2.526,
+      "model_tokens": 4393
+    },
+    {
+      "repeat": 0,
+      "case_id": "authored-ubiquitous-profit",
+      "mode": "no_rag",
+      "expected_status": "answered",
+      "status": "insufficient_evidence",
+      "metrics": {
+        "fact_precision": 0.0,
+        "fact_recall": 0.0,
+        "fact_f1": 0.0,
+        "faithfulness": null,
+        "citation_support": null,
+        "response_relevance": 0.0,
+        "task_success": false
+      },
+      "judge_error": false,
+      "latency_seconds": 1.678,
+      "model_tokens": 384
+    },
+    {
+      "repeat": 0,
+      "case_id": "authored-ubiquitous-profit",
+      "mode": "agent",
+      "expected_status": "answered",
+      "status": "answered",
+      "metrics": {
+        "fact_precision": 0,
+        "fact_recall": 0,
+        "fact_f1": 0.0,
+        "faithfulness": 1,
+        "citation_support": 1,
+        "grounding_consistent": true,
+        "response_relevance": 1,
+        "task_success": false
+      },
+      "judge_error": false,
+      "latency_seconds": 3.58,
+      "model_tokens": 4598
+    },
+    {
+      "repeat": 0,
+      "case_id": "authored-ubiquitous-profit",
+      "mode": "single_rag",
+      "expected_status": "answered",
+      "status": "answered",
+      "metrics": {
+        "fact_precision": 1,
+        "fact_recall": 1,
+        "fact_f1": 1.0,
+        "faithfulness": 1,
+        "citation_support": 1,
+        "grounding_consistent": true,
+        "response_relevance": 0.5,
+        "task_success": true
+      },
+      "judge_error": false,
+      "latency_seconds": 2.246,
+      "model_tokens": 4521
+    },
+    {
+      "repeat": 0,
+      "case_id": "authored-capital-investment",
+      "mode": "single_rag",
+      "expected_status": "answered",
+      "status": "insufficient_evidence",
+      "metrics": {
+        "fact_precision": 0.0,
+        "fact_recall": 0.0,
+        "fact_f1": 0.0,
+        "faithfulness": null,
+        "citation_support": null,
+        "response_relevance": 0.0,
+        "task_success": false
+      },
+      "judge_error": false,
+      "latency_seconds": 2.002,
+      "model_tokens": 4523
+    },
+    {
+      "repeat": 0,
+      "case_id": "authored-capital-investment",
+      "mode": "agent",
+      "expected_status": "answered",
+      "status": "answered",
+      "metrics": {
+        "fact_precision": 0,
+        "fact_recall": 0,
+        "fact_f1": 0.0,
+        "faithfulness": 0,
+        "citation_support": 0,
+        "grounding_consistent": true,
+        "response_relevance": 1,
+        "task_success": false
+      },
+      "judge_error": false,
+      "latency_seconds": 9.304,
+      "model_tokens": 26407
+    },
+    {
+      "repeat": 0,
+      "case_id": "authored-capital-investment",
+      "mode": "no_rag",
+      "expected_status": "answered",
+      "status": "insufficient_evidence",
+      "metrics": {
+        "fact_precision": 0.0,
+        "fact_recall": 0.0,
+        "fact_f1": 0.0,
+        "faithfulness": null,
+        "citation_support": null,
+        "response_relevance": 0.0,
+        "task_success": false
+      },
+      "judge_error": false,
+      "latency_seconds": 1.345,
+      "model_tokens": 368
+    },
+    {
+      "repeat": 0,
+      "case_id": "fujitsu-66",
+      "mode": "no_rag",
+      "expected_status": "answered",
+      "status": "insufficient_evidence",
+      "metrics": {
+        "fact_precision": 0.0,
+        "fact_recall": 0.0,
+        "fact_f1": 0.0,
+        "faithfulness": null,
+        "citation_support": null,
+        "response_relevance": 0.0,
+        "task_success": false
+      },
+      "judge_error": false,
+      "latency_seconds": 0.998,
+      "model_tokens": 337
+    },
+    {
+      "repeat": 0,
+      "case_id": "fujitsu-66",
+      "mode": "single_rag",
+      "expected_status": "answered",
+      "status": "insufficient_evidence",
+      "metrics": {
+        "fact_precision": 0.0,
+        "fact_recall": 0.0,
+        "fact_f1": 0.0,
+        "faithfulness": null,
+        "citation_support": null,
+        "response_relevance": 0.0,
+        "task_success": false
+      },
+      "judge_error": false,
+      "latency_seconds": 1.296,
+      "model_tokens": 3343
+    },
+    {
+      "repeat": 0,
+      "case_id": "fujitsu-66",
+      "mode": "agent",
+      "expected_status": "answered",
+      "status": "answered",
+      "metrics": {
+        "fact_precision": 0.8,
+        "fact_recall": 1,
+        "fact_f1": 0.888888888888889,
+        "faithfulness": 1,
+        "citation_support": 1,
+        "grounding_consistent": true,
+        "response_relevance": 1,
+        "task_success": false
+      },
+      "judge_error": false,
+      "latency_seconds": 5.705,
+      "model_tokens": 11279
+    },
+    {
+      "repeat": 0,
+      "case_id": "unsupported-2035-dividend",
+      "mode": "no_rag",
+      "expected_status": "insufficient_evidence",
+      "status": "insufficient_evidence",
+      "metrics": {
+        "fact_precision": 0.0,
+        "fact_recall": 0.0,
+        "fact_f1": 0.0,
+        "faithfulness": null,
+        "citation_support": null,
+        "response_relevance": 0.0,
+        "task_success": true
+      },
+      "judge_error": false,
+      "latency_seconds": 0.904,
+      "model_tokens": 316
+    },
+    {
+      "repeat": 0,
+      "case_id": "unsupported-2035-dividend",
+      "mode": "single_rag",
+      "expected_status": "insufficient_evidence",
+      "status": "insufficient_evidence",
+      "metrics": {
+        "fact_precision": 0.0,
+        "fact_recall": 0.0,
+        "fact_f1": 0.0,
+        "faithfulness": null,
+        "citation_support": null,
+        "response_relevance": 0.0,
+        "task_success": true
+      },
+      "judge_error": false,
+      "latency_seconds": 1.345,
+      "model_tokens": 4591
+    },
+    {
+      "repeat": 0,
+      "case_id": "unsupported-2035-dividend",
+      "mode": "agent",
+      "expected_status": "insufficient_evidence",
+      "status": "insufficient_evidence",
+      "metrics": {
+        "fact_precision": 0.0,
+        "fact_recall": 0.0,
+        "fact_f1": 0.0,
+        "faithfulness": null,
+        "citation_support": null,
+        "response_relevance": 0.0,
+        "task_success": true
+      },
+      "judge_error": false,
+      "latency_seconds": 7.886,
+      "model_tokens": 22843
+    },
+    {
+      "repeat": 0,
+      "case_id": "authored-value-pricing",
+      "mode": "no_rag",
+      "expected_status": "answered",
+      "status": "insufficient_evidence",
+      "metrics": {
+        "fact_precision": 0.0,
+        "fact_recall": 0.0,
+        "fact_f1": 0.0,
+        "faithfulness": null,
+        "citation_support": null,
+        "response_relevance": 0.0,
+        "task_success": false
+      },
+      "judge_error": false,
+      "latency_seconds": 1.296,
+      "model_tokens": 359
+    },
+    {
+      "repeat": 0,
+      "case_id": "authored-value-pricing",
+      "mode": "single_rag",
+      "expected_status": "answered",
+      "status": "answered",
+      "metrics": {
+        "fact_precision": 1,
+        "fact_recall": 1,
+        "fact_f1": 1.0,
+        "faithfulness": 1,
+        "citation_support": 1,
+        "grounding_consistent": true,
+        "response_relevance": 1,
+        "task_success": true
+      },
+      "judge_error": false,
+      "latency_seconds": 2.709,
+      "model_tokens": 5244
+    },
+    {
+      "repeat": 0,
+      "case_id": "authored-value-pricing",
+      "mode": "agent",
+      "expected_status": "answered",
+      "status": "answered",
+      "metrics": null,
+      "judge_error": true,
+      "latency_seconds": 2.496,
+      "model_tokens": 5227
+    },
+    {
+      "repeat": 0,
+      "case_id": "authored-gk-acquisition",
+      "mode": "single_rag",
+      "expected_status": "answered",
+      "status": "answered",
+      "metrics": {
+        "fact_precision": 1,
+        "fact_recall": 1,
+        "fact_f1": 1.0,
+        "faithfulness": 1,
+        "citation_support": 1,
+        "grounding_consistent": true,
+        "response_relevance": 1,
+        "task_success": true
+      },
+      "judge_error": false,
+      "latency_seconds": 1.739,
+      "model_tokens": 4117
+    },
+    {
+      "repeat": 0,
+      "case_id": "authored-gk-acquisition",
+      "mode": "agent",
+      "expected_status": "answered",
+      "status": "answered",
+      "metrics": {
+        "fact_precision": 1,
+        "fact_recall": 1,
+        "fact_f1": 1.0,
+        "faithfulness": 1,
+        "citation_support": 1,
+        "grounding_consistent": true,
+        "response_relevance": 1,
+        "task_success": true
+      },
+      "judge_error": false,
+      "latency_seconds": 1.735,
+      "model_tokens": 4123
+    },
+    {
+      "repeat": 0,
+      "case_id": "authored-gk-acquisition",
+      "mode": "no_rag",
+      "expected_status": "answered",
+      "status": "insufficient_evidence",
+      "metrics": {
+        "fact_precision": 0.0,
+        "fact_recall": 0.0,
+        "fact_f1": 0.0,
+        "faithfulness": null,
+        "citation_support": null,
+        "response_relevance": 0.0,
+        "task_success": false
+      },
+      "judge_error": false,
+      "latency_seconds": 0.959,
+      "model_tokens": 335
+    },
+    {
+      "repeat": 0,
+      "case_id": "authored-plan-themes",
+      "mode": "single_rag",
+      "expected_status": "answered",
+      "status": "answered",
+      "metrics": {
+        "fact_precision": 1,
+        "fact_recall": 1,
+        "fact_f1": 1.0,
+        "faithfulness": 1,
+        "citation_support": 1,
+        "grounding_consistent": true,
+        "response_relevance": 1,
+        "task_success": true
+      },
+      "judge_error": false,
+      "latency_seconds": 2.386,
+      "model_tokens": 5048
+    },
+    {
+      "repeat": 0,
+      "case_id": "authored-plan-themes",
+      "mode": "no_rag",
+      "expected_status": "answered",
+      "status": "insufficient_evidence",
+      "metrics": {
+        "fact_precision": 0.0,
+        "fact_recall": 0.0,
+        "fact_f1": 0.0,
+        "faithfulness": null,
+        "citation_support": null,
+        "response_relevance": 0.0,
+        "task_success": false
+      },
+      "judge_error": false,
+      "latency_seconds": 0.995,
+      "model_tokens": 365
+    },
+    {
+      "repeat": 0,
+      "case_id": "authored-plan-themes",
+      "mode": "agent",
+      "expected_status": "answered",
+      "status": "answered",
+      "metrics": {
+        "fact_precision": 1,
+        "fact_recall": 1,
+        "fact_f1": 1.0,
+        "faithfulness": 1,
+        "citation_support": 1,
+        "grounding_consistent": true,
+        "response_relevance": 0.6666666666666666,
+        "task_success": true
+      },
+      "judge_error": false,
+      "latency_seconds": 2.304,
+      "model_tokens": 5116
+    },
+    {
+      "repeat": 0,
+      "case_id": "fujitsu-77",
+      "mode": "single_rag",
+      "expected_status": "answered",
+      "status": "answered",
+      "metrics": {
+        "fact_precision": 1,
+        "fact_recall": 1,
+        "fact_f1": 1.0,
+        "faithfulness": 1,
+        "citation_support": 1,
+        "grounding_consistent": true,
+        "response_relevance": 1,
+        "task_success": true
+      },
+      "judge_error": false,
+      "latency_seconds": 4.211,
+      "model_tokens": 4615
+    },
+    {
+      "repeat": 0,
+      "case_id": "fujitsu-77",
+      "mode": "agent",
+      "expected_status": "answered",
+      "status": "answered",
+      "metrics": {
+        "fact_precision": 1,
+        "fact_recall": 0.5,
+        "fact_f1": 0.6666666666666666,
+        "faithfulness": 1,
+        "citation_support": 1,
+        "grounding_consistent": true,
+        "response_relevance": 1,
+        "task_success": false
+      },
+      "judge_error": false,
+      "latency_seconds": 3.676,
+      "model_tokens": 4542
+    },
+    {
+      "repeat": 0,
+      "case_id": "fujitsu-77",
+      "mode": "no_rag",
+      "expected_status": "answered",
+      "status": "insufficient_evidence",
+      "metrics": {
+        "fact_precision": 0.0,
+        "fact_recall": 0.0,
+        "fact_f1": 0.0,
+        "faithfulness": null,
+        "citation_support": null,
+        "response_relevance": 0.0,
+        "task_success": false
+      },
+      "judge_error": false,
+      "latency_seconds": 0.927,
+      "model_tokens": 316
+    },
+    {
+      "repeat": 0,
+      "case_id": "unsupported-individual-salary",
+      "mode": "single_rag",
+      "expected_status": "insufficient_evidence",
+      "status": "insufficient_evidence",
+      "metrics": {
+        "fact_precision": 0.0,
+        "fact_recall": 0.0,
+        "fact_f1": 0.0,
+        "faithfulness": null,
+        "citation_support": null,
+        "response_relevance": 0.0,
+        "task_success": true
+      },
+      "judge_error": false,
+      "latency_seconds": 1.512,
+      "model_tokens": 4880
+    },
+    {
+      "repeat": 0,
+      "case_id": "unsupported-individual-salary",
+      "mode": "no_rag",
+      "expected_status": "insufficient_evidence",
+      "status": "insufficient_evidence",
+      "metrics": {
+        "fact_precision": 0.0,
+        "fact_recall": 0.0,
+        "fact_f1": 0.0,
+        "faithfulness": null,
+        "citation_support": null,
+        "response_relevance": 0.0,
+        "task_success": true
+      },
+      "judge_error": false,
+      "latency_seconds": 0.937,
+      "model_tokens": 346
+    },
+    {
+      "repeat": 0,
+      "case_id": "unsupported-individual-salary",
+      "mode": "agent",
+      "expected_status": "insufficient_evidence",
+      "status": "insufficient_evidence",
+      "metrics": {
+        "fact_precision": 0.0,
+        "fact_recall": 0.0,
+        "fact_f1": 0.0,
+        "faithfulness": null,
+        "citation_support": null,
+        "response_relevance": 0.0,
+        "task_success": true
+      },
+      "judge_error": false,
+      "latency_seconds": 2.812,
+      "model_tokens": 7344
+    },
+    {
+      "repeat": 1,
+      "case_id": "fujitsu-77",
+      "mode": "single_rag",
+      "expected_status": "answered",
+      "status": "answered",
+      "metrics": {
+        "fact_precision": 1,
+        "fact_recall": 1,
+        "fact_f1": 1.0,
+        "faithfulness": 1,
+        "citation_support": 1,
+        "grounding_consistent": true,
+        "response_relevance": 1,
+        "task_success": true
+      },
+      "judge_error": false,
+      "latency_seconds": 3.479,
+      "model_tokens": 4585
+    },
+    {
+      "repeat": 1,
+      "case_id": "fujitsu-77",
+      "mode": "no_rag",
+      "expected_status": "answered",
+      "status": "insufficient_evidence",
+      "metrics": {
+        "fact_precision": 0.0,
+        "fact_recall": 0.0,
+        "fact_f1": 0.0,
+        "faithfulness": null,
+        "citation_support": null,
+        "response_relevance": 0.0,
+        "task_success": false
+      },
+      "judge_error": false,
+      "latency_seconds": 0.939,
+      "model_tokens": 316
+    },
+    {
+      "repeat": 1,
+      "case_id": "fujitsu-77",
+      "mode": "agent",
+      "expected_status": "answered",
+      "status": "answered",
+      "metrics": {
+        "fact_precision": 1,
+        "fact_recall": 0.375,
+        "fact_f1": 0.5454545454545454,
+        "faithfulness": 1,
+        "citation_support": 1,
+        "grounding_consistent": true,
+        "response_relevance": 1,
+        "task_success": false
+      },
+      "judge_error": false,
+      "latency_seconds": 3.734,
+      "model_tokens": 4558
+    },
+    {
+      "repeat": 1,
+      "case_id": "unsupported-2035-dividend",
+      "mode": "single_rag",
+      "expected_status": "insufficient_evidence",
+      "status": "insufficient_evidence",
+      "metrics": {
+        "fact_precision": 0.0,
+        "fact_recall": 0.0,
+        "fact_f1": 0.0,
+        "faithfulness": null,
+        "citation_support": null,
+        "response_relevance": 0.0,
+        "task_success": true
+      },
+      "judge_error": false,
+      "latency_seconds": 1.189,
+      "model_tokens": 4603
+    },
+    {
+      "repeat": 1,
+      "case_id": "unsupported-2035-dividend",
+      "mode": "no_rag",
+      "expected_status": "insufficient_evidence",
+      "status": "insufficient_evidence",
+      "metrics": {
+        "fact_precision": 0.0,
+        "fact_recall": 0.0,
+        "fact_f1": 0.0,
+        "faithfulness": null,
+        "citation_support": null,
+        "response_relevance": 0.0,
+        "task_success": true
+      },
+      "judge_error": false,
+      "latency_seconds": 1.115,
+      "model_tokens": 316
+    },
+    {
+      "repeat": 1,
+      "case_id": "unsupported-2035-dividend",
+      "mode": "agent",
+      "expected_status": "insufficient_evidence",
+      "status": "insufficient_evidence",
+      "metrics": {
+        "fact_precision": 0.0,
+        "fact_recall": 0.0,
+        "fact_f1": 0.0,
+        "faithfulness": null,
+        "citation_support": null,
+        "response_relevance": 0.0,
+        "task_success": true
+      },
+      "judge_error": false,
+      "latency_seconds": 7.903,
+      "model_tokens": 22119
+    },
+    {
+      "repeat": 1,
+      "case_id": "authored-uvance-orders",
+      "mode": "no_rag",
+      "expected_status": "answered",
+      "status": "insufficient_evidence",
+      "metrics": {
+        "fact_precision": 0.0,
+        "fact_recall": 0.0,
+        "fact_f1": 0.0,
+        "faithfulness": null,
+        "citation_support": null,
+        "response_relevance": 0.0,
+        "task_success": false
+      },
+      "judge_error": false,
+      "latency_seconds": 1.156,
+      "model_tokens": 371
+    },
+    {
+      "repeat": 1,
+      "case_id": "authored-uvance-orders",
+      "mode": "agent",
+      "expected_status": "answered",
+      "status": "answered",
+      "metrics": {
+        "fact_precision": 1,
+        "fact_recall": 1,
+        "fact_f1": 1.0,
+        "faithfulness": 1,
+        "citation_support": 1,
+        "grounding_consistent": true,
+        "response_relevance": 1,
+        "task_success": true
+      },
+      "judge_error": false,
+      "latency_seconds": 1.934,
+      "model_tokens": 4393
+    },
+    {
+      "repeat": 1,
+      "case_id": "authored-uvance-orders",
+      "mode": "single_rag",
+      "expected_status": "answered",
+      "status": "answered",
+      "metrics": {
+        "fact_precision": 1,
+        "fact_recall": 1,
+        "fact_f1": 1.0,
+        "faithfulness": 1,
+        "citation_support": 1,
+        "grounding_consistent": true,
+        "response_relevance": 1,
+        "task_success": true
+      },
+      "judge_error": false,
+      "latency_seconds": 1.872,
+      "model_tokens": 4407
+    },
+    {
+      "repeat": 1,
+      "case_id": "authored-ubiquitous-profit",
+      "mode": "agent",
+      "expected_status": "answered",
+      "status": "answered",
+      "metrics": {
+        "fact_precision": 0.6666666666666666,
+        "fact_recall": 0,
+        "fact_f1": 0.0,
+        "faithfulness": null,
+        "citation_support": null,
+        "grounding_consistent": false,
+        "response_relevance": 1,
+        "task_success": false
+      },
+      "judge_error": false,
+      "latency_seconds": 2.461,
+      "model_tokens": 4516
+    },
+    {
+      "repeat": 1,
+      "case_id": "authored-ubiquitous-profit",
+      "mode": "single_rag",
+      "expected_status": "answered",
+      "status": "answered",
+      "metrics": {
+        "fact_precision": 1,
+        "fact_recall": 0.6666666666666666,
+        "fact_f1": 0.8,
+        "faithfulness": 1,
+        "citation_support": 1,
+        "grounding_consistent": true,
+        "response_relevance": 1,
+        "task_success": false
+      },
+      "judge_error": false,
+      "latency_seconds": 2.494,
+      "model_tokens": 4542
+    },
+    {
+      "repeat": 1,
+      "case_id": "authored-ubiquitous-profit",
+      "mode": "no_rag",
+      "expected_status": "answered",
+      "status": "insufficient_evidence",
+      "metrics": {
+        "fact_precision": 0.0,
+        "fact_recall": 0.0,
+        "fact_f1": 0.0,
+        "faithfulness": null,
+        "citation_support": null,
+        "response_relevance": 0.0,
+        "task_success": false
+      },
+      "judge_error": false,
+      "latency_seconds": 1.09,
+      "model_tokens": 380
+    },
+    {
+      "repeat": 1,
+      "case_id": "unsupported-individual-salary",
+      "mode": "single_rag",
+      "expected_status": "insufficient_evidence",
+      "status": "insufficient_evidence",
+      "metrics": {
+        "fact_precision": 0.0,
+        "fact_recall": 0.0,
+        "fact_f1": 0.0,
+        "faithfulness": null,
+        "citation_support": null,
+        "response_relevance": 0.0,
+        "task_success": true
+      },
+      "judge_error": false,
+      "latency_seconds": 1.958,
+      "model_tokens": 4963
+    },
+    {
+      "repeat": 1,
+      "case_id": "unsupported-individual-salary",
+      "mode": "no_rag",
+      "expected_status": "insufficient_evidence",
+      "status": "insufficient_evidence",
+      "metrics": {
+        "fact_precision": 0.0,
+        "fact_recall": 0.0,
+        "fact_f1": 0.0,
+        "faithfulness": null,
+        "citation_support": null,
+        "response_relevance": 0.0,
+        "task_success": true
+      },
+      "judge_error": false,
+      "latency_seconds": 1.127,
+      "model_tokens": 354
+    },
+    {
+      "repeat": 1,
+      "case_id": "unsupported-individual-salary",
+      "mode": "agent",
+      "expected_status": "insufficient_evidence",
+      "status": "insufficient_evidence",
+      "metrics": {
+        "fact_precision": 0.0,
+        "fact_recall": 0.0,
+        "fact_f1": 0.0,
+        "faithfulness": null,
+        "citation_support": null,
+        "response_relevance": 0.0,
+        "task_success": true
+      },
+      "judge_error": false,
+      "latency_seconds": 2.671,
+      "model_tokens": 7207
+    },
+    {
+      "repeat": 1,
+      "case_id": "authored-plan-themes",
+      "mode": "no_rag",
+      "expected_status": "answered",
+      "status": "insufficient_evidence",
+      "metrics": {
+        "fact_precision": 0.0,
+        "fact_recall": 0.0,
+        "fact_f1": 0.0,
+        "faithfulness": null,
+        "citation_support": null,
+        "response_relevance": 0.0,
+        "task_success": false
+      },
+      "judge_error": false,
+      "latency_seconds": 1.2,
+      "model_tokens": 369
+    },
+    {
+      "repeat": 1,
+      "case_id": "authored-plan-themes",
+      "mode": "single_rag",
+      "expected_status": "answered",
+      "status": "answered",
+      "metrics": {
+        "fact_precision": 1,
+        "fact_recall": 1,
+        "fact_f1": 1.0,
+        "faithfulness": 1,
+        "citation_support": 1,
+        "grounding_consistent": true,
+        "response_relevance": 1,
+        "task_success": true
+      },
+      "judge_error": false,
+      "latency_seconds": 1.839,
+      "model_tokens": 5001
+    },
+    {
+      "repeat": 1,
+      "case_id": "authored-plan-themes",
+      "mode": "agent",
+      "expected_status": "answered",
+      "status": "answered",
+      "metrics": {
+        "fact_precision": 1,
+        "fact_recall": 1,
+        "fact_f1": 1.0,
+        "faithfulness": 1,
+        "citation_support": 1,
+        "grounding_consistent": true,
+        "response_relevance": 1,
+        "task_success": true
+      },
+      "judge_error": false,
+      "latency_seconds": 2.234,
+      "model_tokens": 5041
+    },
+    {
+      "repeat": 1,
+      "case_id": "authored-capital-investment",
+      "mode": "agent",
+      "expected_status": "answered",
+      "status": "error",
+      "metrics": {
+        "fact_precision": 0.0,
+        "fact_recall": 0.0,
+        "fact_f1": 0.0,
+        "faithfulness": null,
+        "citation_support": null,
+        "response_relevance": 0.0,
+        "task_success": false
+      },
+      "judge_error": false,
+      "latency_seconds": 13.708,
+      "model_tokens": 42545
+    },
+    {
+      "repeat": 1,
+      "case_id": "authored-capital-investment",
+      "mode": "no_rag",
+      "expected_status": "answered",
+      "status": "insufficient_evidence",
+      "metrics": {
+        "fact_precision": 0.0,
+        "fact_recall": 0.0,
+        "fact_f1": 0.0,
+        "faithfulness": null,
+        "citation_support": null,
+        "response_relevance": 0.0,
+        "task_success": false
+      },
+      "judge_error": false,
+      "latency_seconds": 1.007,
+      "model_tokens": 362
+    },
+    {
+      "repeat": 1,
+      "case_id": "authored-capital-investment",
+      "mode": "single_rag",
+      "expected_status": "answered",
+      "status": "insufficient_evidence",
+      "metrics": {
+        "fact_precision": 0.0,
+        "fact_recall": 0.0,
+        "fact_f1": 0.0,
+        "faithfulness": null,
+        "citation_support": null,
+        "response_relevance": 0.0,
+        "task_success": false
+      },
+      "judge_error": false,
+      "latency_seconds": 3.644,
+      "model_tokens": 9221
+    },
+    {
+      "repeat": 1,
+      "case_id": "authored-gk-acquisition",
+      "mode": "agent",
+      "expected_status": "answered",
+      "status": "answered",
+      "metrics": {
+        "fact_precision": 1,
+        "fact_recall": 1,
+        "fact_f1": 1.0,
+        "faithfulness": 1,
+        "citation_support": 1,
+        "grounding_consistent": true,
+        "response_relevance": 1,
+        "task_success": true
+      },
+      "judge_error": false,
+      "latency_seconds": 1.835,
+      "model_tokens": 4119
+    },
+    {
+      "repeat": 1,
+      "case_id": "authored-gk-acquisition",
+      "mode": "no_rag",
+      "expected_status": "answered",
+      "status": "insufficient_evidence",
+      "metrics": {
+        "fact_precision": 0.0,
+        "fact_recall": 0.0,
+        "fact_f1": 0.0,
+        "faithfulness": null,
+        "citation_support": null,
+        "response_relevance": 0.0,
+        "task_success": false
+      },
+      "judge_error": false,
+      "latency_seconds": 1.106,
+      "model_tokens": 339
+    },
+    {
+      "repeat": 1,
+      "case_id": "authored-gk-acquisition",
+      "mode": "single_rag",
+      "expected_status": "answered",
+      "status": "answered",
+      "metrics": {
+        "fact_precision": 1,
+        "fact_recall": 1,
+        "fact_f1": 1.0,
+        "faithfulness": 1,
+        "citation_support": 1,
+        "grounding_consistent": true,
+        "response_relevance": 1,
+        "task_success": true
+      },
+      "judge_error": false,
+      "latency_seconds": 1.598,
+      "model_tokens": 4120
+    },
+    {
+      "repeat": 1,
+      "case_id": "authored-value-pricing",
+      "mode": "agent",
+      "expected_status": "answered",
+      "status": "answered",
+      "metrics": {
+        "fact_precision": 1,
+        "fact_recall": 1,
+        "fact_f1": 1.0,
+        "faithfulness": 1,
+        "citation_support": 1,
+        "grounding_consistent": true,
+        "response_relevance": 0,
+        "task_success": true
+      },
+      "judge_error": false,
+      "latency_seconds": 3.447,
+      "model_tokens": 5377
+    },
+    {
+      "repeat": 1,
+      "case_id": "authored-value-pricing",
+      "mode": "no_rag",
+      "expected_status": "answered",
+      "status": "insufficient_evidence",
+      "metrics": {
+        "fact_precision": 0.0,
+        "fact_recall": 0.0,
+        "fact_f1": 0.0,
+        "faithfulness": null,
+        "citation_support": null,
+        "response_relevance": 0.0,
+        "task_success": false
+      },
+      "judge_error": false,
+      "latency_seconds": 1.098,
+      "model_tokens": 358
+    },
+    {
+      "repeat": 1,
+      "case_id": "authored-value-pricing",
+      "mode": "single_rag",
+      "expected_status": "answered",
+      "status": "insufficient_evidence",
+      "metrics": {
+        "fact_precision": 0.0,
+        "fact_recall": 0.0,
+        "fact_f1": 0.0,
+        "faithfulness": null,
+        "citation_support": null,
+        "response_relevance": 0.0,
+        "task_success": false
+      },
+      "judge_error": false,
+      "latency_seconds": 4.006,
+      "model_tokens": 10390
+    },
+    {
+      "repeat": 1,
+      "case_id": "fujitsu-66",
+      "mode": "no_rag",
+      "expected_status": "answered",
+      "status": "insufficient_evidence",
+      "metrics": {
+        "fact_precision": 0.0,
+        "fact_recall": 0.0,
+        "fact_f1": 0.0,
+        "faithfulness": null,
+        "citation_support": null,
+        "response_relevance": 0.0,
+        "task_success": false
+      },
+      "judge_error": false,
+      "latency_seconds": 0.992,
+      "model_tokens": 333
+    },
+    {
+      "repeat": 1,
+      "case_id": "fujitsu-66",
+      "mode": "single_rag",
+      "expected_status": "answered",
+      "status": "insufficient_evidence",
+      "metrics": {
+        "fact_precision": 0.0,
+        "fact_recall": 0.0,
+        "fact_f1": 0.0,
+        "faithfulness": null,
+        "citation_support": null,
+        "response_relevance": 0.0,
+        "task_success": false
+      },
+      "judge_error": false,
+      "latency_seconds": 1.382,
+      "model_tokens": 3315
+    },
+    {
+      "repeat": 1,
+      "case_id": "fujitsu-66",
+      "mode": "agent",
+      "expected_status": "answered",
+      "status": "answered",
+      "metrics": {
+        "fact_precision": 0.75,
+        "fact_recall": 0.8333333333333334,
+        "fact_f1": 0.7894736842105262,
+        "faithfulness": 1,
+        "citation_support": 1,
+        "grounding_consistent": true,
+        "response_relevance": 1,
+        "task_success": false
+      },
+      "judge_error": false,
+      "latency_seconds": 11.874,
+      "model_tokens": 34441
+    },
+    {
+      "repeat": 2,
+      "case_id": "authored-capital-investment",
+      "mode": "no_rag",
+      "expected_status": "answered",
+      "status": "insufficient_evidence",
+      "metrics": {
+        "fact_precision": 0.0,
+        "fact_recall": 0.0,
+        "fact_f1": 0.0,
+        "faithfulness": null,
+        "citation_support": null,
+        "response_relevance": 0.0,
+        "task_success": false
+      },
+      "judge_error": false,
+      "latency_seconds": 1.306,
+      "model_tokens": 364
+    },
+    {
+      "repeat": 2,
+      "case_id": "authored-capital-investment",
+      "mode": "agent",
+      "expected_status": "answered",
+      "status": "answered",
+      "metrics": {
+        "fact_precision": 0,
+        "fact_recall": 0,
+        "fact_f1": 0.0,
+        "faithfulness": 0,
+        "citation_support": 0,
+        "grounding_consistent": true,
+        "response_relevance": 1,
+        "task_success": false
+      },
+      "judge_error": false,
+      "latency_seconds": 45.411,
+      "model_tokens": 51035
+    },
+    {
+      "repeat": 2,
+      "case_id": "authored-capital-investment",
+      "mode": "single_rag",
+      "expected_status": "answered",
+      "status": "insufficient_evidence",
+      "metrics": {
+        "fact_precision": 0.0,
+        "fact_recall": 0.0,
+        "fact_f1": 0.0,
+        "faithfulness": null,
+        "citation_support": null,
+        "response_relevance": 0.0,
+        "task_success": false
+      },
+      "judge_error": false,
+      "latency_seconds": 1.825,
+      "model_tokens": 4525
+    },
+    {
+      "repeat": 2,
+      "case_id": "authored-uvance-orders",
+      "mode": "agent",
+      "expected_status": "answered",
+      "status": "answered",
+      "metrics": {
+        "fact_precision": 1,
+        "fact_recall": 1,
+        "fact_f1": 1.0,
+        "faithfulness": 1,
+        "citation_support": 1,
+        "grounding_consistent": true,
+        "response_relevance": 1,
+        "task_success": true
+      },
+      "judge_error": false,
+      "latency_seconds": 2.596,
+      "model_tokens": 4419
+    },
+    {
+      "repeat": 2,
+      "case_id": "authored-uvance-orders",
+      "mode": "single_rag",
+      "expected_status": "answered",
+      "status": "answered",
+      "metrics": {
+        "fact_precision": 1,
+        "fact_recall": 1,
+        "fact_f1": 1.0,
+        "faithfulness": 1,
+        "citation_support": 1,
+        "grounding_consistent": true,
+        "response_relevance": 1,
+        "task_success": true
+      },
+      "judge_error": false,
+      "latency_seconds": 2.001,
+      "model_tokens": 4393
+    },
+    {
+      "repeat": 2,
+      "case_id": "authored-uvance-orders",
+      "mode": "no_rag",
+      "expected_status": "answered",
+      "status": "insufficient_evidence",
+      "metrics": {
+        "fact_precision": 0.0,
+        "fact_recall": 0.0,
+        "fact_f1": 0.0,
+        "faithfulness": null,
+        "citation_support": null,
+        "response_relevance": 0.0,
+        "task_success": false
+      },
+      "judge_error": false,
+      "latency_seconds": 1.177,
+      "model_tokens": 384
+    },
+    {
+      "repeat": 2,
+      "case_id": "unsupported-individual-salary",
+      "mode": "agent",
+      "expected_status": "insufficient_evidence",
+      "status": "insufficient_evidence",
+      "metrics": {
+        "fact_precision": 0.0,
+        "fact_recall": 0.0,
+        "fact_f1": 0.0,
+        "faithfulness": null,
+        "citation_support": null,
+        "response_relevance": 0.0,
+        "task_success": true
+      },
+      "judge_error": false,
+      "latency_seconds": 2.784,
+      "model_tokens": 7359
+    },
+    {
+      "repeat": 2,
+      "case_id": "unsupported-individual-salary",
+      "mode": "no_rag",
+      "expected_status": "insufficient_evidence",
+      "status": "insufficient_evidence",
+      "metrics": {
+        "fact_precision": 0.0,
+        "fact_recall": 0.0,
+        "fact_f1": 0.0,
+        "faithfulness": null,
+        "citation_support": null,
+        "response_relevance": 0.0,
+        "task_success": true
+      },
+      "judge_error": false,
+      "latency_seconds": 1.137,
+      "model_tokens": 347
+    },
+    {
+      "repeat": 2,
+      "case_id": "unsupported-individual-salary",
+      "mode": "single_rag",
+      "expected_status": "insufficient_evidence",
+      "status": "insufficient_evidence",
+      "metrics": {
+        "fact_precision": 0.0,
+        "fact_recall": 0.0,
+        "fact_f1": 0.0,
+        "faithfulness": null,
+        "citation_support": null,
+        "response_relevance": 0.0,
+        "task_success": true
+      },
+      "judge_error": false,
+      "latency_seconds": 2.22,
+      "model_tokens": 4945
+    },
+    {
+      "repeat": 2,
+      "case_id": "authored-value-pricing",
+      "mode": "agent",
+      "expected_status": "answered",
+      "status": "answered",
+      "metrics": {
+        "fact_precision": 1,
+        "fact_recall": 1,
+        "fact_f1": 1.0,
+        "faithfulness": 1,
+        "citation_support": 1,
+        "grounding_consistent": true,
+        "response_relevance": 0.25,
+        "task_success": true
+      },
+      "judge_error": false,
+      "latency_seconds": 3.123,
+      "model_tokens": 5271
+    },
+    {
+      "repeat": 2,
+      "case_id": "authored-value-pricing",
+      "mode": "single_rag",
+      "expected_status": "answered",
+      "status": "answered",
+      "metrics": null,
+      "judge_error": true,
+      "latency_seconds": 3.263,
+      "model_tokens": 5311
+    },
+    {
+      "repeat": 2,
+      "case_id": "authored-value-pricing",
+      "mode": "no_rag",
+      "expected_status": "answered",
+      "status": "insufficient_evidence",
+      "metrics": {
+        "fact_precision": 0.0,
+        "fact_recall": 0.0,
+        "fact_f1": 0.0,
+        "faithfulness": null,
+        "citation_support": null,
+        "response_relevance": 0.0,
+        "task_success": false
+      },
+      "judge_error": false,
+      "latency_seconds": 1.204,
+      "model_tokens": 358
+    },
+    {
+      "repeat": 2,
+      "case_id": "fujitsu-66",
+      "mode": "single_rag",
+      "expected_status": "answered",
+      "status": "insufficient_evidence",
+      "metrics": {
+        "fact_precision": 0.0,
+        "fact_recall": 0.0,
+        "fact_f1": 0.0,
+        "faithfulness": null,
+        "citation_support": null,
+        "response_relevance": 0.0,
+        "task_success": false
+      },
+      "judge_error": false,
+      "latency_seconds": 2.113,
+      "model_tokens": 3356
+    },
+    {
+      "repeat": 2,
+      "case_id": "fujitsu-66",
+      "mode": "no_rag",
+      "expected_status": "answered",
+      "status": "insufficient_evidence",
+      "metrics": {
+        "fact_precision": 0.0,
+        "fact_recall": 0.0,
+        "fact_f1": 0.0,
+        "faithfulness": null,
+        "citation_support": null,
+        "response_relevance": 0.0,
+        "task_success": false
+      },
+      "judge_error": false,
+      "latency_seconds": 1.152,
+      "model_tokens": 335
+    },
+    {
+      "repeat": 2,
+      "case_id": "fujitsu-66",
+      "mode": "agent",
+      "expected_status": "answered",
+      "status": "answered",
+      "metrics": {
+        "fact_precision": 1,
+        "fact_recall": 1,
+        "fact_f1": 1.0,
+        "faithfulness": 1,
+        "citation_support": 1,
+        "grounding_consistent": true,
+        "response_relevance": 1,
+        "task_success": true
+      },
+      "judge_error": false,
+      "latency_seconds": 7.675,
+      "model_tokens": 17771
+    },
+    {
+      "repeat": 2,
+      "case_id": "authored-ubiquitous-profit",
+      "mode": "no_rag",
+      "expected_status": "answered",
+      "status": "insufficient_evidence",
+      "metrics": {
+        "fact_precision": 0.0,
+        "fact_recall": 0.0,
+        "fact_f1": 0.0,
+        "faithfulness": null,
+        "citation_support": null,
+        "response_relevance": 0.0,
+        "task_success": false
+      },
+      "judge_error": false,
+      "latency_seconds": 1.103,
+      "model_tokens": 380
+    },
+    {
+      "repeat": 2,
+      "case_id": "authored-ubiquitous-profit",
+      "mode": "agent",
+      "expected_status": "answered",
+      "status": "error",
+      "metrics": {
+        "fact_precision": 0.0,
+        "fact_recall": 0.0,
+        "fact_f1": 0.0,
+        "faithfulness": null,
+        "citation_support": null,
+        "response_relevance": 0.0,
+        "task_success": false
+      },
+      "judge_error": false,
+      "latency_seconds": 5.904,
+      "model_tokens": 9324
+    },
+    {
+      "repeat": 2,
+      "case_id": "authored-ubiquitous-profit",
+      "mode": "single_rag",
+      "expected_status": "answered",
+      "status": "insufficient_evidence",
+      "metrics": {
+        "fact_precision": 0.0,
+        "fact_recall": 0.0,
+        "fact_f1": 0.0,
+        "faithfulness": null,
+        "citation_support": null,
+        "response_relevance": 0.0,
+        "task_success": false
+      },
+      "judge_error": false,
+      "latency_seconds": 3.486,
+      "model_tokens": 9022
+    },
+    {
+      "repeat": 2,
+      "case_id": "fujitsu-77",
+      "mode": "no_rag",
+      "expected_status": "answered",
+      "status": "insufficient_evidence",
+      "metrics": {
+        "fact_precision": 0.0,
+        "fact_recall": 0.0,
+        "fact_f1": 0.0,
+        "faithfulness": null,
+        "citation_support": null,
+        "response_relevance": 0.0,
+        "task_success": false
+      },
+      "judge_error": false,
+      "latency_seconds": 0.943,
+      "model_tokens": 316
+    },
+    {
+      "repeat": 2,
+      "case_id": "fujitsu-77",
+      "mode": "agent",
+      "expected_status": "answered",
+      "status": "answered",
+      "metrics": {
+        "fact_precision": 1,
+        "fact_recall": 1,
+        "fact_f1": 1.0,
+        "faithfulness": 1,
+        "citation_support": 1,
+        "grounding_consistent": true,
+        "response_relevance": 1,
+        "task_success": true
+      },
+      "judge_error": false,
+      "latency_seconds": 3.912,
+      "model_tokens": 4525
+    },
+    {
+      "repeat": 2,
+      "case_id": "fujitsu-77",
+      "mode": "single_rag",
+      "expected_status": "answered",
+      "status": "answered",
+      "metrics": {
+        "fact_precision": 1,
+        "fact_recall": 1,
+        "fact_f1": 1.0,
+        "faithfulness": 1,
+        "citation_support": 1,
+        "grounding_consistent": true,
+        "response_relevance": 1,
+        "task_success": true
+      },
+      "judge_error": false,
+      "latency_seconds": 4.132,
+      "model_tokens": 4599
+    },
+    {
+      "repeat": 2,
+      "case_id": "authored-plan-themes",
+      "mode": "single_rag",
+      "expected_status": "answered",
+      "status": "answered",
+      "metrics": {
+        "fact_precision": 1,
+        "fact_recall": 1,
+        "fact_f1": 1.0,
+        "faithfulness": 1,
+        "citation_support": 1,
+        "grounding_consistent": true,
+        "response_relevance": 1,
+        "task_success": true
+      },
+      "judge_error": false,
+      "latency_seconds": 2.435,
+      "model_tokens": 5047
+    },
+    {
+      "repeat": 2,
+      "case_id": "authored-plan-themes",
+      "mode": "agent",
+      "expected_status": "answered",
+      "status": "answered",
+      "metrics": {
+        "fact_precision": 1,
+        "fact_recall": 1,
+        "fact_f1": 1.0,
+        "faithfulness": 1,
+        "citation_support": 1,
+        "grounding_consistent": true,
+        "response_relevance": 1,
+        "task_success": true
+      },
+      "judge_error": false,
+      "latency_seconds": 1.912,
+      "model_tokens": 4961
+    },
+    {
+      "repeat": 2,
+      "case_id": "authored-plan-themes",
+      "mode": "no_rag",
+      "expected_status": "answered",
+      "status": "insufficient_evidence",
+      "metrics": {
+        "fact_precision": 0.0,
+        "fact_recall": 0.0,
+        "fact_f1": 0.0,
+        "faithfulness": null,
+        "citation_support": null,
+        "response_relevance": 0.0,
+        "task_success": false
+      },
+      "judge_error": false,
+      "latency_seconds": 1.061,
+      "model_tokens": 362
+    },
+    {
+      "repeat": 2,
+      "case_id": "unsupported-2035-dividend",
+      "mode": "single_rag",
+      "expected_status": "insufficient_evidence",
+      "status": "insufficient_evidence",
+      "metrics": {
+        "fact_precision": 0.0,
+        "fact_recall": 0.0,
+        "fact_f1": 0.0,
+        "faithfulness": null,
+        "citation_support": null,
+        "response_relevance": 0.0,
+        "task_success": true
+      },
+      "judge_error": false,
+      "latency_seconds": 1.212,
+      "model_tokens": 4591
+    },
+    {
+      "repeat": 2,
+      "case_id": "unsupported-2035-dividend",
+      "mode": "agent",
+      "expected_status": "insufficient_evidence",
+      "status": "insufficient_evidence",
+      "metrics": {
+        "fact_precision": 0.0,
+        "fact_recall": 0.0,
+        "fact_f1": 0.0,
+        "faithfulness": null,
+        "citation_support": null,
+        "response_relevance": 0.0,
+        "task_success": true
+      },
+      "judge_error": false,
+      "latency_seconds": 8.375,
+      "model_tokens": 22926
+    },
+    {
+      "repeat": 2,
+      "case_id": "unsupported-2035-dividend",
+      "mode": "no_rag",
+      "expected_status": "insufficient_evidence",
+      "status": "insufficient_evidence",
+      "metrics": {
+        "fact_precision": 0.0,
+        "fact_recall": 0.0,
+        "fact_f1": 0.0,
+        "faithfulness": null,
+        "citation_support": null,
+        "response_relevance": 0.0,
+        "task_success": true
+      },
+      "judge_error": false,
+      "latency_seconds": 0.857,
+      "model_tokens": 316
+    },
+    {
+      "repeat": 2,
+      "case_id": "authored-gk-acquisition",
+      "mode": "single_rag",
+      "expected_status": "answered",
+      "status": "answered",
+      "metrics": {
+        "fact_precision": 1,
+        "fact_recall": 1,
+        "fact_f1": 1.0,
+        "faithfulness": 1,
+        "citation_support": 1,
+        "grounding_consistent": true,
+        "response_relevance": 1,
+        "task_success": true
+      },
+      "judge_error": false,
+      "latency_seconds": 4.061,
+      "model_tokens": 4122
+    },
+    {
+      "repeat": 2,
+      "case_id": "authored-gk-acquisition",
+      "mode": "agent",
+      "expected_status": "answered",
+      "status": "answered",
+      "metrics": {
+        "fact_precision": 1,
+        "fact_recall": 1,
+        "fact_f1": 1.0,
+        "faithfulness": 1,
+        "citation_support": 1,
+        "grounding_consistent": true,
+        "response_relevance": 1,
+        "task_success": true
+      },
+      "judge_error": false,
+      "latency_seconds": 1.783,
+      "model_tokens": 4135
+    },
+    {
+      "repeat": 2,
+      "case_id": "authored-gk-acquisition",
+      "mode": "no_rag",
+      "expected_status": "answered",
+      "status": "insufficient_evidence",
+      "metrics": {
+        "fact_precision": 0.0,
+        "fact_recall": 0.0,
+        "fact_f1": 0.0,
+        "faithfulness": null,
+        "citation_support": null,
+        "response_relevance": 0.0,
+        "task_success": false
+      },
+      "judge_error": false,
+      "latency_seconds": 1.104,
+      "model_tokens": 335
+    }
+  ]
+}

@@ -101,7 +101,8 @@ Doc-Agent/
 │   ├── test_answering.py     # 回答草案の構造、引用照合、原文位置
 │   ├── test_agent.py         # 問答・CLI、追加調査、停止上限、失敗記録
 │   ├── test_api.py           # HTTP の型、引用、失敗、接続、並行応答
-│   └── test_evaluation.py    # 期待値の隔離、判定、失敗記録
+│   ├── test_evaluation.py    # 期待値の隔離、判定、失敗記録
+│   └── test_comparison.py    # 対照条件・数式・採点分母・再開の整合性
 ├── docs/
 │   ├── development.md        # 本ガイド
 │   ├── data-sources.md       # データ取得元と利用条件
@@ -113,7 +114,9 @@ Doc-Agent/
 │   ├── agent.md              # 道具、状態遷移、停止条件、実行記録
 │   ├── web-api.md            # HTTP の起動、型、ステータス、実行記録
 │   ├── evaluation.md         # 固定ケース、判定、実 API の成功・失敗
-│   └── baseline.md           # 基線評価の選定・再現手順・実行記録
+│   ├── baseline.md           # 基線評価の選定・再現手順・実行記録
+│   ├── rag-comparison.md     # 三方式の比較条件・指標・結果
+│   └── assets/               # 公開した数値と再生成可能な評価図
 └── src/jp_doc_agent/
     ├── resources/            # PDF の取得元と評価ケース
     ├── config.py             # .env から設定を読み込む
@@ -146,7 +149,9 @@ Doc-Agent/
     │   ├── routes.py         # 文書参照・問答を既存サービスに接続
     │   └── errors.py         # 安全な共通エラー本文と HTTP ステータス
     ├── evaluation/
-    │   └── service.py        # 期待値の隔離、証拠と回答の確認、レポート
+    │   ├── service.py        # 期待値の隔離、証拠と回答の確認、レポート
+    │   ├── comparison.py     # 三方式対照・参照事実による採点・検索曲線
+    │   └── plots.py          # 数値 JSON から図を生成（API 不要）
     └── ingestion/
         ├── download.py       # ダウンロード、形式・サイズ・ハッシュの確認
         ├── pdf.py            # ページ単位の日本語本文抽出
@@ -157,7 +162,7 @@ Doc-Agent/
 
 機能ごとの処理は `ingestion/`、`chunking/`、`embedding/`、`retrieval/`、`answering/`、`agent/`、`evaluation/` に置き、設定・接続・データモデル・モデル API・CLI は共通部分としてパッケージ直下に置きます。`api/` は HTTP の型・ルーティング・エラーを担当します。CLI・Web API・固定ケース評価は同じ `agent/service.py` の問答フローを呼び出し、JSON 保存は `reports.py` で共用します。`chunking/splitter.py` は本文分割、`chunking/service.py` は永続化、`retrieval/service.py` は検索 SQL と出典検証、`answering/` は回答草案と引用検証を担当します。Agent の道具は既存の参照処理を再利用し、回答と道具選択は `llm.py` を共用します。評価の期待値はモデルに渡しません。`infra/migrations/versions/` は適用済み環境を更新するための履歴なので、古いファイルも保持します。
 
-テストは Web API を含む 9 ファイルにまとめ、分割と保存、Embedding API と保存をそれぞれ同じ機能のファイルに統合しました。移行テストも `test_migrations.py` に統合し、重複する引数検証・既定値や固定ケース名だけの確認を削除しました。並行処理・ロールバック・失敗後の再開・原文一致の検証は保持しています。
+テストは Web API と対照評価を含め機能ごとにまとめ、分割と保存、Embedding API と保存をそれぞれ同じ機能のファイルに統合しました。移行テストも `test_migrations.py` に統合し、重複する引数検証・既定値や固定ケース名だけの確認を削除しました。並行処理・ロールバック・失敗後の再開・原文一致の検証は保持しています。
 
 ## データベースの注意点
 
