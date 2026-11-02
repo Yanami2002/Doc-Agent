@@ -39,7 +39,7 @@
 Git、uv、起動済みの Docker Desktop が必要です。以下はリポジトリのルートで実行します。
 
 ```bash
-uv python install
+uv python install 3.12
 uv sync --locked
 cp .env.example .env
 ```

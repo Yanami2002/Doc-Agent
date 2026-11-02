@@ -7,7 +7,7 @@
 Git、uv、起動済みの Docker Desktop を用意します。
 
 ```bash
-uv python install
+uv python install 3.12
 uv sync --locked
 cp .env.example .env
 ```
@@ -85,7 +85,6 @@ Doc-Agent/
 ├── README.md                 # 概要、実装状況、技術選定、評価方針
 ├── pyproject.toml            # 依存関係、CLI、検査設定
 ├── uv.lock                   # 依存バージョンの固定
-├── .python-version           # Python バージョン
 ├── .env.example              # 設定のテンプレート
 ├── infra/                    # DB 設定・初期化とスキーマ変更
 │   ├── compose.yaml          # PostgreSQL と永続化設定
