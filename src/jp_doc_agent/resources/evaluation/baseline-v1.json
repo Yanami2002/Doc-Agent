@@ -1,0 +1,241 @@
+[
+  {
+    "id": "fujitsu-66",
+    "question": "富士通のFY2023の営業利益が下がった原因は何ですか？",
+    "top_k": 5,
+    "expected_status": "answered",
+    "expected_evidence": [
+      {
+        "document_sha256": "23695bb34953a27db042eed751b80211962db5269232775ce8b67f7dfa019a07",
+        "page_number": 3
+      }
+    ],
+    "answer_contains": [
+      "1234",
+      "ネットワーク",
+      "半導体"
+    ],
+    "source_question_id": "66",
+    "category": "cause",
+    "review_points": [
+      "一過性損失1,234億円と事業上の減益要因の両方を説明する。",
+      "ネットワークの需要反動と半導体パッケージの物量減・操業低下を区別する。"
+    ]
+  },
+  {
+    "id": "fujitsu-77",
+    "question": "Fujitsu UvanceのVertical areas について書かれている内容を要約してください。",
+    "top_k": 5,
+    "expected_status": "answered",
+    "expected_evidence": [
+      {
+        "document_sha256": "9274456a44d506682e1cff97d64ba680bdcd8ec074d0ceb0e6115357c9f77536",
+        "page_number": 19
+      },
+      {
+        "document_sha256": "9274456a44d506682e1cff97d64ba680bdcd8ec074d0ceb0e6115357c9f77536",
+        "page_number": 36
+      },
+      {
+        "document_sha256": "9274456a44d506682e1cff97d64ba680bdcd8ec074d0ceb0e6115357c9f77536",
+        "page_number": 39
+      },
+      {
+        "document_sha256": "9274456a44d506682e1cff97d64ba680bdcd8ec074d0ceb0e6115357c9f77536",
+        "page_number": 40
+      },
+      {
+        "document_sha256": "9274456a44d506682e1cff97d64ba680bdcd8ec074d0ceb0e6115357c9f77536",
+        "page_number": 41
+      },
+      {
+        "document_sha256": "9274456a44d506682e1cff97d64ba680bdcd8ec074d0ceb0e6115357c9f77536",
+        "page_number": 42
+      }
+    ],
+    "answer_contains": [
+      "Sustainable Manufacturing",
+      "Consumer Experience",
+      "Healthy Living",
+      "Trusted Society",
+      "3679",
+      "40"
+    ],
+    "source_question_id": "77",
+    "category": "summary",
+    "review_points": [
+      "4分野を列挙し、2023年度の実績と2025年度の目標を区別する。",
+      "成長・収益性・提供価値を要約し、複数ページにまたがる主張を引用で裏付ける。"
+    ]
+  },
+  {
+    "id": "authored-uvance-orders",
+    "question": "2023年度のFujitsu Uvanceの売上収益と受注実績、およびそれぞれの前期比増加率を教えてください。",
+    "top_k": 5,
+    "expected_status": "answered",
+    "expected_evidence": [
+      {
+        "document_sha256": "23695bb34953a27db042eed751b80211962db5269232775ce8b67f7dfa019a07",
+        "page_number": 5
+      }
+    ],
+    "answer_contains": [
+      "3679",
+      "84",
+      "4493",
+      "80"
+    ],
+    "source_question_id": null,
+    "category": "numeric",
+    "review_points": [
+      "売上収益3,679億円・84%増と受注実績4,493億円・80%増を対応付ける。",
+      "金額の単位と対象年度を保持し、2024年度上期の実績と混同しない。"
+    ]
+  },
+  {
+    "id": "authored-ubiquitous-profit",
+    "question": "2023年度の富士通のユビキタスソリューションでは、調整後営業利益はいくらで、前期からいくら増えましたか。増益のための取り組みも説明してください。",
+    "top_k": 5,
+    "expected_status": "answered",
+    "expected_evidence": [
+      {
+        "document_sha256": "23695bb34953a27db042eed751b80211962db5269232775ce8b67f7dfa019a07",
+        "page_number": 6
+      }
+    ],
+    "answer_contains": [
+      "242",
+      "155",
+      "コストダウン",
+      "価格転嫁"
+    ],
+    "source_question_id": null,
+    "category": "cause_numeric",
+    "review_points": [
+      "調整後営業利益242億円、前期比155億円増を正しく対応付ける。",
+      "部材価格上昇に対するコストダウン・価格転嫁を説明する。"
+    ]
+  },
+  {
+    "id": "authored-capital-investment",
+    "question": "2023年度の富士通の設備投資総額と、サービスソリューション、デバイスソリューションへの投資額をそれぞれ教えてください。",
+    "top_k": 5,
+    "expected_status": "answered",
+    "expected_evidence": [
+      {
+        "document_sha256": "23695bb34953a27db042eed751b80211962db5269232775ce8b67f7dfa019a07",
+        "page_number": 9
+      }
+    ],
+    "answer_contains": [
+      "1297",
+      "315",
+      "785"
+    ],
+    "source_question_id": null,
+    "category": "numeric",
+    "review_points": [
+      "総額1,297億円、サービス315億円、デバイス785億円の対応と単位が正しい。",
+      "二部門の合計を全社総額と断定しない。"
+    ]
+  },
+  {
+    "id": "authored-gk-acquisition",
+    "question": "GK Software SEが富士通の連結子会社になった日と、公開買付けを実施した会社を教えてください。",
+    "top_k": 5,
+    "expected_status": "answered",
+    "expected_evidence": [
+      {
+        "document_sha256": "23695bb34953a27db042eed751b80211962db5269232775ce8b67f7dfa019a07",
+        "page_number": 9
+      }
+    ],
+    "answer_contains": [
+      "2023",
+      "5",
+      "16",
+      "Fujitsu ND Solutions"
+    ],
+    "source_question_id": null,
+    "category": "date_entity",
+    "review_points": [
+      "日付が2023年5月16日である。",
+      "公開買付け主体をFujitsu ND Solutions AGとし、GK Software SEと混同しない。"
+    ]
+  },
+  {
+    "id": "authored-plan-themes",
+    "question": "富士通の2023〜2025年度中期経営計画で設定した3つの主な取り組みを、統合レポート2024に基づいて説明してください。",
+    "top_k": 5,
+    "expected_status": "answered",
+    "expected_evidence": [
+      {
+        "document_sha256": "9274456a44d506682e1cff97d64ba680bdcd8ec074d0ceb0e6115357c9f77536",
+        "page_number": 16
+      },
+      {
+        "document_sha256": "9274456a44d506682e1cff97d64ba680bdcd8ec074d0ceb0e6115357c9f77536",
+        "page_number": 18
+      }
+    ],
+    "answer_contains": [
+      "ポートフォリオ",
+      "モダナイゼーション",
+      "海外",
+      "収益"
+    ],
+    "source_question_id": null,
+    "category": "summary",
+    "review_points": [
+      "事業モデル・ポートフォリオ変革、顧客IT資産のモダナイゼーション支援、海外事業の収益性向上の3点を含む。",
+      "3つのテーマと4つの重点戦略を混同しない。"
+    ]
+  },
+  {
+    "id": "authored-value-pricing",
+    "question": "統合レポート2024では、従来のSI事業とFujitsu Uvanceの価格設定はどのように異なると説明していますか。",
+    "top_k": 5,
+    "expected_status": "answered",
+    "expected_evidence": [
+      {
+        "document_sha256": "9274456a44d506682e1cff97d64ba680bdcd8ec074d0ceb0e6115357c9f77536",
+        "page_number": 41
+      }
+    ],
+    "answer_contains": [
+      "コスト",
+      "価値",
+      "従量"
+    ],
+    "source_question_id": null,
+    "category": "comparison",
+    "review_points": [
+      "SIのコスト積み上げと、Uvanceの提供価値に基づく価格設定を対比する。",
+      "従量課金もあることを説明し、すべてのオファリングが同じ課金方式だと断定しない。"
+    ]
+  },
+  {
+    "id": "unsupported-2035-dividend",
+    "question": "富士通の2035年度の年間配当金の確定額はいくらですか？",
+    "top_k": 5,
+    "expected_status": "insufficient_evidence",
+    "expected_evidence": [],
+    "answer_contains": [],
+    "category": "unsupported_future",
+    "review_points": [
+      "収録文書の年代から確定額を裏付けられないことを示し、過去年の配当や予想値で代用しない。"
+    ]
+  },
+  {
+    "id": "unsupported-individual-salary",
+    "question": "富士通統合レポート2024に基づいて、全従業員それぞれの氏名と月額基本給の一覧を示してください。",
+    "top_k": 5,
+    "expected_status": "insufficient_evidence",
+    "expected_evidence": [],
+    "answer_contains": [],
+    "category": "unsupported_detail",
+    "review_points": [
+      "個人別の一覧を裏付ける本文がないことを示し、平均給与や役員報酬を代用しない。"
+    ]
+  }
+]

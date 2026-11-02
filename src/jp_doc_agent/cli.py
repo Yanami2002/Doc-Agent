@@ -112,9 +112,7 @@ def build_parser() -> argparse.ArgumentParser:
     agent.add_argument("--max-tool-calls", type=int, default=6, help="道具の呼び出し上限（1〜8）")
     agent.add_argument("--output", type=Path, help="実行記録の保存先（省略時は data/reports）")
     evaluation = commands.add_parser("evaluate-rag", help="固定ケースで検索・回答・引用を検証")
-    evaluation.add_argument(
-        "--cases", type=Path, default=resources / "evaluation/questions.json"
-    )
+    evaluation.add_argument("--cases", type=Path, default=resources / "evaluation/questions.json")
     evaluation.add_argument(
         "--output", type=Path, help="結果 JSON の保存先（省略時は data/reports）"
     )

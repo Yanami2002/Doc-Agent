@@ -1,6 +1,9 @@
 """評価の期待値をモデルに送らず、証拠ページ・引用・回答を個別に確認する。"""
 
+import hashlib
+import json
 import unicodedata
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Literal
 
@@ -10,7 +13,7 @@ from sqlalchemy.engine import Engine
 
 from jp_doc_agent.agent.service import agent_ask
 from jp_doc_agent.answering.generator import OpenAIAnswerGenerator
-from jp_doc_agent.embedding.encoder import EmbeddingError, OpenAIEncoder, validate_query
+from jp_doc_agent.embedding.encoder import EmbeddingError, OpenAIEncoder, profile_id, validate_query
 from jp_doc_agent.llm import ModelError
 from jp_doc_agent.models import Document
 
@@ -30,6 +33,9 @@ class EvaluationCase(BaseModel):
     expected_status: Literal["answered", "insufficient_evidence"]
     expected_evidence: list[EvidenceReference] = Field(default_factory=list)
     answer_contains: list[str] = Field(default_factory=list)
+    source_question_id: str | None = None
+    category: str = "development"
+    review_points: list[str] = Field(default_factory=list)
 
     @model_validator(mode="after")
     def validate_case(self) -> "EvaluationCase":
@@ -39,6 +45,8 @@ class EvaluationCase(BaseModel):
             raise ValueError("回答可能なケースには許容する証拠ページが必要です。")
         if any(not word.strip() for word in self.answer_contains):
             raise ValueError("照合するキーワードを空白だけにしないでください。")
+        if not self.category.strip() or any(not point.strip() for point in self.review_points):
+            raise ValueError("評価分類と確認観点に空白以外の文字が必要です。")
         return self
 
 
@@ -79,7 +87,25 @@ def _check_result(case: EvaluationCase, result: dict, document_ids: dict[str, in
             _normalized(word) in _normalized(result["answer"]) for word in case.answer_contains
         ),
     }
-    return {"passed": all(value for value in checks.values() if value is not None), **checks}
+    failures = []
+    if not checks["status_match"]:
+        failures.append("status_mismatch")
+    if checks["retrieval_evidence_hit"] is False:
+        failures.append("retrieval_miss")
+    if checks["citation_evidence_hit"] is False:
+        failures.append("citation_miss")
+    if not checks["answer_keywords_match"]:
+        failures.append("answer_keyword_mismatch")
+    return {
+        "passed": not failures,
+        **checks,
+        "retrieval_evidence_recall": len(expected & retrieved) / len(expected)
+        if expected
+        else None,
+        "citation_evidence_recall": len(expected & cited) / len(expected) if expected else None,
+        "failure_categories": failures,
+        "semantic_review_required": case.expected_status == "answered",
+    }
 
 
 def evaluate(
@@ -88,6 +114,7 @@ def evaluate(
     generator: OpenAIAnswerGenerator,
     cases: list[EvaluationCase],
 ) -> dict:
+    evaluated_at = datetime.now(UTC).isoformat()
     if any(case.top_k > 20 for case in cases):
         raise ValueError("Agent の評価では top-k を 1〜20 にしてください。")
     if not cases or len({case.id for case in cases}) != len(cases):
@@ -99,6 +126,19 @@ def evaluate(
     } | {case.scope_document_sha256 for case in cases if case.scope_document_sha256 is not None}
     # 全ケースの文書を API 呼び出し前に照合。DB の連番に依存しない。
     with engine.connect() as connection:
+        corpus = [
+            dict(row)
+            for row in connection.execute(
+                select(
+                    Document.sha256,
+                    Document.title,
+                    Document.page_count,
+                    Document.parser_version,
+                    Document.chunking_signature,
+                    Document.chunking_config,
+                ).order_by(Document.sha256)
+            ).mappings()
+        ]
         documents = {
             row.sha256: row
             for row in connection.execute(
@@ -154,13 +194,67 @@ def evaluate(
     ]
     passed = sum(item["checks"]["passed"] for item in completed)
     recorded = [item["result"] for item in results if "result" in item]
+    answerable_count = sum(case.expected_status == "answered" for case in cases)
+    insufficient_count = len(cases) - answerable_count
+    insufficient_correct = sum(
+        item["case"]["expected_status"] == "insufficient_evidence"
+        and item["checks"]["status_match"]
+        for item in completed
+    )
+    evidence_count = sum(bool(case.expected_evidence) for case in cases)
+    case_json = json.dumps(
+        [case.model_dump() for case in cases],
+        ensure_ascii=False,
+        sort_keys=True,
+        separators=(",", ":"),
+    )
     return {
         "workflow": "agent",
+        "evaluation_version": "page-fact-v2",
+        "evaluated_at": evaluated_at,
+        "case_set_sha256": hashlib.sha256(case_json.encode()).hexdigest(),
+        "configuration": {
+            "requested_model": generator.model,
+            "max_output_tokens": generator.max_output_tokens,
+            "embedding_profile_id": profile_id(),
+        },
+        "corpus": corpus,
         "summary": {
             "cases": len(cases),
+            "completed": len(completed),
+            "answerable_cases": answerable_count,
+            "insufficient_cases": insufficient_count,
             "passed": passed,
+            "automated_pass_rate": passed / len(cases),
             "failed": len(completed) - passed,
             "errors": len(cases) - len(completed),
+            # エラーを含む全対象ケースが分母。成功した実行だけで成績を高く見せない。
+            "retrieval_evidence_hit_rate_all": (
+                sum(item["checks"]["retrieval_evidence_hit"] for item in evidence_cases)
+                / evidence_count
+                if evidence_count
+                else None
+            ),
+            "citation_evidence_hit_rate_all": (
+                sum(item["checks"]["citation_evidence_hit"] for item in evidence_cases)
+                / evidence_count
+                if evidence_count
+                else None
+            ),
+            "insufficient_correct_rate": (
+                insufficient_correct / insufficient_count if insufficient_count else None
+            ),
+            "failure_categories": {
+                category: sum(
+                    category in item["checks"]["failure_categories"] for item in completed
+                )
+                for category in (
+                    "status_mismatch",
+                    "retrieval_miss",
+                    "citation_miss",
+                    "answer_keyword_mismatch",
+                )
+            },
             "retrieval_evidence_hit_rate": (
                 sum(item["checks"]["retrieval_evidence_hit"] for item in evidence_cases)
                 / len(evidence_cases)

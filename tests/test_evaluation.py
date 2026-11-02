@@ -8,7 +8,7 @@ from sqlalchemy import select
 
 from jp_doc_agent import cli
 from jp_doc_agent.answering.generator import OpenAIAnswerGenerator
-from jp_doc_agent.evaluation.service import EvaluationCase, evaluate, load_cases
+from jp_doc_agent.evaluation.service import EvaluationCase, _check_result, evaluate, load_cases
 from jp_doc_agent.models import Document
 from jp_doc_agent.reports import write_report
 from jp_doc_agent.retrieval.service import search
@@ -34,7 +34,13 @@ def test_evaluation_checks_sources_and_keeps_expectations_out_of_prompt(
 ):
     identifier = ready_document(["対象者は学生です。"])
     encoder, state = rag_encoder
-    case = case_for(engine, identifier, answer_contains=["対象条件"])
+    case = case_for(
+        engine,
+        identifier,
+        answer_contains=["対象条件"],
+        source_question_id="evaluation-only-id",
+        review_points=["evaluation-only-criterion"],
+    )
     report = evaluate(engine, encoder, OpenAIAnswerGenerator(encoder.client), [case])
     assert report["summary"]["passed"] == 1
     assert report["summary"]["retrieval_evidence_hit_rate"] == 1.0
@@ -43,6 +49,8 @@ def test_evaluation_checks_sources_and_keeps_expectations_out_of_prompt(
         assert "expected_status" not in text
         assert "expected_evidence" not in text
         assert "answer_contains" not in text
+        assert "evaluation-only-id" not in text
+        assert "evaluation-only-criterion" not in text
         assert case.scope_document_sha256 not in text
     output = tmp_path / "reports" / "result.json"
     write_report(report, output)
@@ -160,9 +168,43 @@ def test_api_failure_is_recorded_and_next_case_runs(
     encoder = encoder_factory(handler)
     report = evaluate(engine, encoder, OpenAIAnswerGenerator(encoder.client), cases)
     assert report["summary"]["errors"] == report["summary"]["passed"] == 1
+    assert report["summary"]["automated_pass_rate"] == 0.5
+    assert report["summary"]["retrieval_evidence_hit_rate_all"] == 0.0
+    assert report["summary"]["citation_evidence_hit_rate_all"] == 0.0
+    assert report["summary"]["insufficient_correct_rate"] == 1.0
     assert len(answers) == 2
     assert "test-key" not in report["results"][0]["reason"]
     assert "secret-value" not in report["results"][0]["reason"]
+
+
+def test_evidence_coverage_distinguishes_documents_and_partial_page_matches():
+    case = EvaluationCase(
+        id="multi-page",
+        question="両ページの情報は？",
+        expected_status="answered",
+        expected_evidence=[
+            {"document_sha256": "a" * 64, "page_number": 1},
+            {"document_sha256": "a" * 64, "page_number": 2},
+        ],
+    )
+    result = {
+        "status": "answered",
+        "answer": "説明。",
+        "retrieval": {
+            "results": [
+                {"document_id": 20, "page_numbers": [1]},
+                {"document_id": 10, "page_numbers": [2]},
+            ]
+        },
+        "citations": [{"document_id": 20, "page_numbers": [1]}],
+    }
+    checks = _check_result(case, result, {"a" * 64: 10})
+    assert checks["retrieval_evidence_hit"] is True
+    assert checks["retrieval_evidence_recall"] == 0.5
+    assert checks["citation_evidence_recall"] == 0.0
+    assert checks["failure_categories"] == ["citation_miss"]
+    assert checks["semantic_review_required"] is True
+    assert checks["passed"] is False
 
 
 def test_missing_documents_never_call_api(engine, rag_encoder):
