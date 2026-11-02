@@ -6,7 +6,7 @@ import httpx
 import pytest
 
 from jp_doc_agent.answering.citations import resolve_answer
-from jp_doc_agent.answering.generator import OpenAIAnswerGenerator, _answer_schema
+from jp_doc_agent.answering.generator import OpenAIAnswerGenerator, _answer_schema, _quote_catalog
 from jp_doc_agent.answering.schema import AnswerDraft
 from jp_doc_agent.config import ANSWER_MODEL
 from jp_doc_agent.llm import ModelError
@@ -123,7 +123,7 @@ def test_generator_sends_only_evidence_and_uses_strict_schema(
         assert body["text"]["format"]["strict"] is True
         choices = body["text"]["format"]["schema"]["$defs"]["CitationDraft"]["anyOf"]
         assert choices[0]["properties"]["chunk_id"]["enum"] == [hit["chunk_id"]]
-        assert hit["text"] in choices[0]["properties"]["quote"]["enum"]
+        assert choices[0]["properties"]["quote"]["enum"][0] == "q11_0"
         payload = json.loads(body["input"][1]["content"])
         assert payload == {
             "question": "対象者は？",
@@ -132,6 +132,7 @@ def test_generator_sends_only_evidence_and_uses_strict_schema(
                     "chunk_id": 11,
                     "title": hit["title"],
                     "text": hit["text"],
+                    "quote_options": _quote_catalog([hit])[11],
                 }
             ],
         }
@@ -273,10 +274,13 @@ def test_unknown_field_names_in_schema_errors_are_redacted(hit, encoder_factory,
 
 def test_quote_candidates_are_unchanged_substrings_bound_to_their_source_chunk(hit):
     other = {**hit, "chunk_id": 12, "text": "別資料の文です。\n対象者は社会人です。"}
-    schema = _answer_schema([hit, other])
+    catalog = _quote_catalog([hit, other])
+    schema = _answer_schema(catalog)
     for branch, source in zip(schema["$defs"]["CitationDraft"]["anyOf"], [hit, other], strict=True):
         assert branch["properties"]["chunk_id"]["enum"] == [source["chunk_id"]]
-        choices = branch["properties"]["quote"]["enum"]
+        identifiers = branch["properties"]["quote"]["enum"]
+        assert all("\n" not in identifier for identifier in identifiers)
+        choices = [catalog[source["chunk_id"]][identifier] for identifier in identifiers]
         assert source["text"] in choices
         assert all(quote in source["text"] and quote.strip() for quote in choices)
         assert source["text"].replace("\n", " ") not in choices
@@ -284,10 +288,22 @@ def test_quote_candidates_are_unchanged_substrings_bound_to_their_source_chunk(h
 
 def test_quote_schema_stays_within_enum_and_string_budgets_for_large_evidence_sets(hit):
     hits = [{**hit, "chunk_id": i, "text": (f"文{i}。\n" * 100)} for i in range(100)]
-    branches = _answer_schema(hits)["$defs"]["CitationDraft"]["anyOf"]
+    branches = _answer_schema(_quote_catalog(hits))["$defs"]["CitationDraft"]["anyOf"]
     values = [value for branch in branches for value in branch["properties"]["quote"]["enum"]]
     assert len(values) + len(hits) + 2 <= 1000
     assert sum(map(len, values)) <= 90000
     assert len(branches) == len(hits)
     with pytest.raises(ValueError, match="上限"):
-        _answer_schema([{**hit, "text": "a" * 90001}])
+        _quote_catalog([{**hit, "text": "a" * 90001}])
+
+
+def test_quote_identifier_is_mapped_back_to_unmodified_original(
+    hit, encoder_factory, answer_response
+):
+    def handler(request):
+        return httpx.Response(200, json=answer_response(draft_for(hit, quote="q11_0")))
+
+    response = OpenAIAnswerGenerator(encoder_factory(handler).client).generate("対象者は？", [hit])
+    result = resolve_answer(response.draft, [hit])
+    assert result["citations"][0]["quote"] == hit["text"]
+    assert result["citations"][0]["page_numbers"] == [2, 3]
