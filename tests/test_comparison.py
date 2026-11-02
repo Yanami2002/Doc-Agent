@@ -77,6 +77,11 @@ def test_fact_scores_separate_correctness_completeness_and_grounding():
     assert result["fact_f1"] == pytest.approx(4 / 7)
     assert result["citation_support"] == pytest.approx(1 / 3)
     assert result["task_success"] is False
+    grade.claims[2].citation_supported = True
+    inconsistent = grade_metrics(grade, facts, 2, True)
+    assert inconsistent["fact_f1"] == result["fact_f1"]
+    assert inconsistent["grounding_consistent"] is False
+    assert inconsistent["faithfulness"] is inconsistent["citation_support"] is None
     with pytest.raises(ValueError, match="事実 ID"):
         grade_metrics(grade, facts[:1], 2, True)
     with pytest.raises(ValueError, match="結論"):

@@ -154,16 +154,21 @@ def grade_metrics(grade: AnswerGrade, facts: list[ReferenceFact], statements: in
         raise ValueError("根拠評価の適用範囲が不正です。")
     precision = mean(claim.reference_supported for claim in grade.claims)
     recall = mean(item.covered for item in grade.fact_coverage)
+    # 引用は取得文脈の部分集合。矛盾した採点は補正せず補助指標を欠測にする。
+    grounding_consistent = not grounded or all(
+        not claim.citation_supported or claim.context_supported for claim in grade.claims
+    )
     return {
         "fact_precision": precision,
         "fact_recall": recall,
         "fact_f1": 2 * precision * recall / (precision + recall) if precision + recall else 0.0,
         "faithfulness": mean(claim.context_supported for claim in grade.claims)
-        if grounded
+        if grounded and grounding_consistent
         else None,
         "citation_support": mean(claim.citation_supported for claim in grade.claims)
-        if grounded
+        if grounded and grounding_consistent
         else None,
+        "grounding_consistent": grounding_consistent,
         "response_relevance": mean(claim.relevant for claim in grade.claims),
         "task_success": precision == recall == 1.0,
     }
@@ -534,6 +539,10 @@ def summarize(report: dict) -> dict:
             if grounded
             else None,
             "grounding_scored_answers": len(grounded),
+            "grounding_inconsistencies": sum(
+                trial["evaluation"].get("metrics", {}).get("grounding_consistent") is False
+                for trial in positive
+            ),
             "task_success_rate": mean(score(trial, "task_success") for trial in trials),
             "correct_abstention_rate": mean(score(trial, "task_success") for trial in negative)
             if negative
@@ -585,6 +594,7 @@ def public_report(report: dict) -> dict:
         "finished_at": report["finished_at"],
         "code_revision": report["code_revision"],
         "summary": report["summary"],
+        "aggregation_audit": report.get("aggregation_audit"),
         "retrieval_curves": report["retrieval_curves"],
         "trials": [
             {
