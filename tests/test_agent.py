@@ -368,3 +368,79 @@ def test_cli_bad_citation_never_displays_unverified_answer(
     assert "表示してはいけない" not in output.out
     assert output.err == ""
     assert encoder.client.is_closed()
+
+
+def whitespace_error(payload):
+    draft = grounded(payload)
+    draft["statements"][0]["text"] = "表示してはいけない草案。"
+    draft["statements"][0]["citations"][0]["quote"] = payload["evidence"][0]["text"].replace(
+        "\n", " "
+    )
+    return draft
+
+
+def test_validation_repair_reuses_evidence_and_only_returns_exact_original_quote(
+    engine, ready_document, scripted_agent
+):
+    ready_document(["対象者は学生です。\n期限は三月です。"])
+
+    def corrected(payload):
+        assert payload["validation_feedback"]["details"]["match_type"] == "whitespace_changed"
+        return grounded(payload)
+
+    encoder, generator, state = scripted_agent(answers=[whitespace_error, corrected])
+    result = agent_ask(engine, encoder, generator, "対象者は？")
+    assert result["status"] == "answered"
+    assert result["counts"]["searches"] == 1
+    assert result["counts"]["model_calls"] == 2
+    assert result["usage"]["answer_total_tokens"] == 140
+    assert result["citations"][0]["quote"] == "対象者は学生です。\n期限は三月です。"
+    assert result["trace"][1]["status"] == "retrying"
+    assert result["trace"][2]["validation_repair"] is True
+    assert "表示してはいけない" not in json.dumps(result, ensure_ascii=False)
+    requests = [json.loads(body["input"][1]["content"]) for _, body in state["calls"][1:]]
+    assert requests[0]["evidence"] == requests[1]["evidence"]
+
+
+def test_failed_repair_is_bounded_and_never_returns_unverified_answer(
+    engine, ready_document, scripted_agent
+):
+    ready_document(["対象者は学生です。\n期限は三月です。"])
+    encoder, generator, _ = scripted_agent(answers=[whitespace_error] * 5)
+    result = agent_ask(engine, encoder, generator, "対象者は？")
+    assert result["status"] == "error"
+    assert result["error_code"] == "quote_mismatch"
+    assert result["counts"]["model_calls"] == 2
+    assert result["usage"]["answer_total_tokens"] == 140
+    assert "answer" not in result
+    assert "表示してはいけない" not in json.dumps(result, ensure_ascii=False)
+
+
+@pytest.mark.parametrize("fail_later", [False, True])
+def test_partial_answer_repair_preserves_insufficiency_and_run_wide_repair_budget(
+    engine, ready_document, scripted_agent, fail_later
+):
+    identifier = ready_document(["対象者は学生です。\n期限は三月です。"])
+
+    def conflicting(payload):
+        draft = grounded(payload)
+        draft["missing_information"] = ["未確認の条件。"]
+        return draft
+
+    def corrected(payload):
+        assert payload["validation_feedback"]["details"]["violations"][0]["type"] == (
+            "answered_with_missing_information"
+        )
+        return INSUFFICIENT
+
+    encoder, generator, _ = scripted_agent(
+        answers=[conflicting, corrected, whitespace_error if fail_later else grounded, grounded],
+        steps=[decision("page", document_id=identifier, page_number=1)],
+    )
+    result = agent_ask(engine, encoder, generator, "対象者は？")
+    assert result["trace"][2]["answer_status"] == "insufficient_evidence"
+    assert result["counts"]["tool_calls"] == 2
+    assert result["counts"]["model_calls"] == 4
+    assert result["usage"]["answer_total_tokens"] == 280
+    assert sum(event.get("validation_repair", False) for event in result["trace"]) == 1
+    assert result["status"] == ("error" if fail_later else "answered")

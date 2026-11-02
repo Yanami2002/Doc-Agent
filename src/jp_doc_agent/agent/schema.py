@@ -14,12 +14,15 @@ class AgentLimits:
     max_tool_calls: int = 6
     max_page_reads: int = 2
     max_evidence_tokens: int = 16000
+    max_answer_repairs: int = 1
 
     def __post_init__(self):
         if not 1 <= self.max_searches <= 3 or not 1 <= self.max_tool_calls <= 8:
             raise ValueError("検索上限は 1〜3、道具の呼び出し上限は 1〜8 にしてください。")
         if not 0 <= self.max_page_reads <= 2 or not 300 <= self.max_evidence_tokens <= 16000:
             raise ValueError("原文参照上限は 0〜2、証拠本文の上限は 300〜16000 Token です。")
+        if not 0 <= self.max_answer_repairs <= 1:
+            raise ValueError("回答の検証修正は実行全体で最大 1 回です。")
 
 
 class ToolDecision(BaseModel):

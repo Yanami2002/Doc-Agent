@@ -9,8 +9,58 @@ from pydantic import BaseModel, ConfigDict, ValidationError
 from jp_doc_agent.config import ANSWER_MODEL
 
 
+@dataclass(frozen=True)
+class ModelUsage:
+    model: str
+    input_tokens: int
+    output_tokens: int
+
+
 class ModelError(RuntimeError):
-    """秘密情報や API 本文を含まない利用者向けエラー。"""
+    """固定コードと診断値だけを保持し、API 本文は公開しない。"""
+
+    def __init__(
+        self,
+        message: str,
+        *,
+        code: str = "model_error",
+        details: dict | None = None,
+        usage: ModelUsage | None = None,
+    ):
+        super().__init__(message)
+        self.code = code
+        self.details = details or {}
+        self.usage = usage
+
+
+def _validation_details(error: ValidationError, schema: dict) -> dict:
+    # extra_forbidden の loc などにモデル生成の任意文字列が入るため、既知フィールドだけ残す。
+    fields = set()
+
+    def collect(node):
+        if isinstance(node, dict):
+            fields.update(node.get("properties", {}))
+            for value in node.values():
+                collect(value)
+        elif isinstance(node, list):
+            for value in node:
+                collect(value)
+
+    collect(schema)
+    return {
+        "violations": [
+            {
+                "type": item["type"],
+                "path": [
+                    part if isinstance(part, int) or part in fields else "<unknown_field>"
+                    for part in item["loc"]
+                ],
+            }
+            for item in error.errors(include_input=False, include_context=False, include_url=False)[
+                :10
+            ]
+        ]
+    }
 
 
 @dataclass(frozen=True)
@@ -58,7 +108,13 @@ class StructuredModel:
         self.max_output_tokens = max_output_tokens
 
     def request[T: BaseModel](
-        self, payload: dict, *, instructions: str, output_type: type[T], schema_name: str
+        self,
+        payload: dict,
+        *,
+        instructions: str,
+        output_type: type[T],
+        schema_name: str,
+        output_schema: dict | None = None,
     ) -> ModelResult[T]:
         try:
             response = self.client.responses.create(
@@ -77,7 +133,7 @@ class StructuredModel:
                         "type": "json_schema",
                         "name": schema_name,
                         "strict": True,
-                        "schema": output_type.model_json_schema(),
+                        "schema": output_schema or output_type.model_json_schema(),
                     }
                 },
             )
@@ -98,6 +154,15 @@ class StructuredModel:
             raise ModelError("モデル API の応答形式が不正です。回答を中止しました。") from None
         if response.status != "completed":
             raise ModelError("モデル API の応答が完了していません。回答を中止しました。")
+        usage = response.usage
+        if (
+            not response.model.strip()
+            or usage is None
+            or min(usage.input_tokens, usage.output_tokens) < 0
+            or usage.total_tokens != usage.input_tokens + usage.output_tokens
+        ):
+            raise ModelError("モデル API のモデルまたは使用量が不正です。回答を中止しました。")
+        verified_usage = ModelUsage(response.model, usage.input_tokens, usage.output_tokens)
         contents = [
             content
             for item in response.output
@@ -111,14 +176,11 @@ class StructuredModel:
             raise ModelError("モデル API の本文件数が不正です。回答を中止しました。")
         try:
             value = output_type.model_validate_json(texts[0], strict=True)
-        except ValidationError:
-            raise ModelError("モデル出力の構造が不正です。回答を中止しました。") from None
-        usage = response.usage
-        if (
-            not response.model.strip()
-            or usage is None
-            or min(usage.input_tokens, usage.output_tokens) < 0
-            or usage.total_tokens != usage.input_tokens + usage.output_tokens
-        ):
-            raise ModelError("モデル API のモデルまたは使用量が不正です。回答を中止しました。")
+        except ValidationError as error:
+            raise ModelError(
+                "モデル出力の構造が不正です。回答を中止しました。",
+                code="schema_validation",
+                details=_validation_details(error, output_type.model_json_schema()),
+                usage=verified_usage,
+            ) from None
         return ModelResult(value, response.model, usage.input_tokens, usage.output_tokens)

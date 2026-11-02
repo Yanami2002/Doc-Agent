@@ -6,7 +6,7 @@ import httpx
 import pytest
 
 from jp_doc_agent.answering.citations import resolve_answer
-from jp_doc_agent.answering.generator import OpenAIAnswerGenerator
+from jp_doc_agent.answering.generator import OpenAIAnswerGenerator, _answer_schema
 from jp_doc_agent.answering.schema import AnswerDraft
 from jp_doc_agent.config import ANSWER_MODEL
 from jp_doc_agent.llm import ModelError
@@ -121,6 +121,9 @@ def test_generator_sends_only_evidence_and_uses_strict_schema(
         assert body["max_output_tokens"] == 2048
         assert body["text"]["format"]["type"] == "json_schema"
         assert body["text"]["format"]["strict"] is True
+        choices = body["text"]["format"]["schema"]["$defs"]["CitationDraft"]["anyOf"]
+        assert choices[0]["properties"]["chunk_id"]["enum"] == [hit["chunk_id"]]
+        assert hit["text"] in choices[0]["properties"]["quote"]["enum"]
         payload = json.loads(body["input"][1]["content"])
         assert payload == {
             "question": "対象者は？",
@@ -213,3 +216,78 @@ def test_api_errors_are_safe(hit, encoder_factory, status):
         OpenAIAnswerGenerator(encoder_factory(handler).client).generate("対象者は？", [hit])
     assert "secret-value" not in str(error.value)
     assert "test-key" not in str(error.value)
+
+
+def test_quote_diagnostics_identify_whitespace_without_accepting_it(hit):
+    altered = hit["text"].replace("\n", " ")
+    with pytest.raises(ModelError) as caught:
+        resolve_answer(AnswerDraft.model_validate(draft_for(hit, quote=altered)), [hit])
+    error = caught.value
+    assert error.code == "quote_mismatch"
+    assert error.details["match_type"] == "whitespace_changed"
+    assert altered not in json.dumps(error.details, ensure_ascii=False)
+
+
+def test_cross_chunk_quote_is_diagnosed_but_still_rejected(hit):
+    left = {**hit, "text": "対象者は学生です。期限は", "start_char": 0, "end_char": 12}
+    right = {**hit, "chunk_id": 12, "text": "期限は三月です。", "start_char": 9, "end_char": 17}
+    quote = "学生です。期限は三月です。"
+    with pytest.raises(ModelError) as caught:
+        resolve_answer(AnswerDraft.model_validate(draft_for(left, quote=quote)), [left, right])
+    assert caught.value.details["match_type"] == "spans_chunks"
+
+
+def test_schema_diagnostics_distinguish_conflicting_status_and_preserve_usage(
+    hit, encoder_factory, answer_response
+):
+    def handler(request):
+        draft = draft_for(hit)
+        draft["missing_information"] = ["test-key secret-value"]
+        return httpx.Response(200, json=answer_response(draft))
+
+    with pytest.raises(ModelError) as caught:
+        OpenAIAnswerGenerator(encoder_factory(handler).client).generate("対象者は？", [hit])
+    error = caught.value
+    assert error.code == "schema_validation"
+    assert error.details["violations"] == [
+        {"type": "answered_with_missing_information", "path": []}
+    ]
+    assert error.usage.input_tokens == 50
+    assert error.usage.output_tokens == 20
+    assert "secret-value" not in json.dumps(error.details)
+
+
+def test_unknown_field_names_in_schema_errors_are_redacted(hit, encoder_factory, answer_response):
+    def handler(request):
+        draft = draft_for(hit)
+        draft["statements"][0]["citations"][0]["test-key secret-value"] = "private value"
+        return httpx.Response(200, json=answer_response(draft))
+
+    with pytest.raises(ModelError) as caught:
+        OpenAIAnswerGenerator(encoder_factory(handler).client).generate("対象者は？", [hit])
+    details = caught.value.details
+    assert details["violations"][0]["path"][-1] == "<unknown_field>"
+    assert "test-key" not in json.dumps(details)
+    assert "private value" not in json.dumps(details)
+
+
+def test_quote_candidates_are_unchanged_substrings_bound_to_their_source_chunk(hit):
+    other = {**hit, "chunk_id": 12, "text": "別資料の文です。\n対象者は社会人です。"}
+    schema = _answer_schema([hit, other])
+    for branch, source in zip(schema["$defs"]["CitationDraft"]["anyOf"], [hit, other], strict=True):
+        assert branch["properties"]["chunk_id"]["enum"] == [source["chunk_id"]]
+        choices = branch["properties"]["quote"]["enum"]
+        assert source["text"] in choices
+        assert all(quote in source["text"] and quote.strip() for quote in choices)
+        assert source["text"].replace("\n", " ") not in choices
+
+
+def test_quote_schema_stays_within_enum_and_string_budgets_for_large_evidence_sets(hit):
+    hits = [{**hit, "chunk_id": i, "text": (f"文{i}。\n" * 100)} for i in range(100)]
+    branches = _answer_schema(hits)["$defs"]["CitationDraft"]["anyOf"]
+    values = [value for branch in branches for value in branch["properties"]["quote"]["enum"]]
+    assert len(values) + len(hits) + 2 <= 1000
+    assert sum(map(len, values)) <= 90000
+    assert len(branches) == len(hits)
+    with pytest.raises(ValueError, match="上限"):
+        _answer_schema([{**hit, "text": "a" * 90001}])

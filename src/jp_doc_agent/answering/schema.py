@@ -3,6 +3,7 @@
 from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
+from pydantic_core import PydanticCustomError
 
 
 class CitationDraft(BaseModel):
@@ -29,17 +30,26 @@ class AnswerDraft(BaseModel):
     @model_validator(mode="after")
     def validate_status(self) -> "AnswerDraft":
         if self.status == "answered":
-            if not self.statements or self.missing_information:
-                raise ValueError("回答には結論が必要で、不足情報は空配列にしてください。")
+            if not self.statements:
+                raise PydanticCustomError("answered_without_statements", "回答には結論が必要です。")
+            if self.missing_information:
+                raise PydanticCustomError(
+                    "answered_with_missing_information", "回答時の不足情報は空配列にしてください。"
+                )
             for statement in self.statements:
                 if not statement.text.strip() or not statement.citations:
-                    raise ValueError("全ての結論に本文と引用が必要です。")
+                    raise PydanticCustomError(
+                        "statement_without_evidence", "全ての結論に本文と引用が必要です。"
+                    )
                 if any(not citation.quote.strip() for citation in statement.citations):
-                    raise ValueError("引用原文に空白以外の文字が必要です。")
+                    raise PydanticCustomError("blank_quote", "引用原文に文字が必要です。")
         elif (
             self.statements
             or not self.missing_information
             or any(not item.strip() for item in self.missing_information)
         ):
-            raise ValueError("根拠不足の場合は結論を生成せず、不足情報を示してください。")
+            raise PydanticCustomError(
+                "invalid_insufficient_evidence",
+                "根拠不足では結論を生成せず、不足情報を示してください。",
+            )
         return self

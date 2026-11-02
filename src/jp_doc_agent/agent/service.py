@@ -19,7 +19,7 @@ from jp_doc_agent.embedding.encoder import EmbeddingError, OpenAIEncoder, profil
 from jp_doc_agent.llm import ModelError
 from jp_doc_agent.models import Document
 
-AGENT_PROMPT_VERSION = "research-agent-ja-v1"
+AGENT_PROMPT_VERSION = "research-agent-ja-v2-validation-repair"
 PLAN_INSTRUCTIONS = """日本語の文書調査で、不足情報を補う次の道具を一つ選んでください。
 question が質問、missing_information が現在の不足情報、evidence が取得済みの本文です。
 documents は一覧参照で確認した文書、history は実行済みの処理と結果、remaining は残り回数です。
@@ -46,6 +46,7 @@ class _AgentRun:
         self.page_reads = 0
         self.tool_calls = 0
         self.model_calls = 0
+        self.answer_repairs = 0
         self.actual_model = None
         self.usage = {
             "embedding_tokens": 0,
@@ -162,34 +163,59 @@ class _AgentRun:
             event["elapsed_seconds"] = round(perf_counter() - started, 3)
 
     def assess(self, state: AgentState) -> dict:
-        event = {"type": "model", "name": "assess_and_answer"}
-        self.trace.append(event)
-        self.model_calls += 1
-        started = perf_counter()
-        try:
-            response = self.generator.generate(
-                state["question"], state["hits"], pages=state["pages"]
-            )
-            self._record_model(response)
-            resolved = resolve_answer(response.draft, state["hits"])
-            event.update(
-                status="ok",
-                model=response.model,
-                input_tokens=response.input_tokens,
-                output_tokens=response.output_tokens,
-                answer_status=resolved["status"],
-                missing_information=resolved["missing_information"],
-            )
-            return {
-                "generated": response,
-                "next_node": "finish" if resolved["status"] == "answered" else "plan",
-                "stop_reason": "answered" if resolved["status"] == "answered" else "",
-            }
-        except ModelError as error:
-            event.update(status="error", error=str(error))
-            raise
-        finally:
-            event["elapsed_seconds"] = round(perf_counter() - started, 3)
+        feedback = None
+        while True:
+            event = {"type": "model", "name": "assess_and_answer"}
+            if feedback is not None:
+                event["validation_repair"] = True
+            self.trace.append(event)
+            self.model_calls += 1
+            started = perf_counter()
+            try:
+                response = self.generator.generate(
+                    state["question"],
+                    state["hits"],
+                    pages=state["pages"],
+                    validation_feedback=feedback,
+                )
+                self._record_model(response)
+                event.update(
+                    model=response.model,
+                    input_tokens=response.input_tokens,
+                    output_tokens=response.output_tokens,
+                )
+                resolved = resolve_answer(response.draft, state["hits"])
+                event.update(
+                    status="ok",
+                    answer_status=resolved["status"],
+                    missing_information=resolved["missing_information"],
+                )
+                return {
+                    "generated": response,
+                    "next_node": "finish" if resolved["status"] == "answered" else "plan",
+                    "stop_reason": "answered" if resolved["status"] == "answered" else "",
+                }
+            except ModelError as error:
+                if error.usage is not None:
+                    self._record_model(error.usage)
+                    event.update(
+                        model=error.usage.model,
+                        input_tokens=error.usage.input_tokens,
+                        output_tokens=error.usage.output_tokens,
+                    )
+                diagnostic = {"code": error.code, "details": error.details}
+                event.update(status="error", error=str(error), diagnostic=diagnostic)
+                if (
+                    error.code in ("quote_mismatch", "schema_validation")
+                    and self.answer_repairs < self.limits.max_answer_repairs
+                ):
+                    self.answer_repairs += 1
+                    event["status"] = "retrying"
+                    feedback = diagnostic
+                else:
+                    raise
+            finally:
+                event["elapsed_seconds"] = round(perf_counter() - started, 3)
 
     def plan(self, state: AgentState) -> dict:
         if self.tool_calls >= self.limits.max_tool_calls:
@@ -237,7 +263,18 @@ class _AgentRun:
                 "stop_reason": "no_further_evidence" if response.value.action == "finish" else "",
             }
         except ModelError as error:
-            event.update(status="error", error=str(error))
+            if error.usage is not None:
+                self._record_model(error.usage)
+                event.update(
+                    model=error.usage.model,
+                    input_tokens=error.usage.input_tokens,
+                    output_tokens=error.usage.output_tokens,
+                )
+            event.update(
+                status="error",
+                error=str(error),
+                diagnostic={"code": error.code, "details": error.details},
+            )
             raise
         finally:
             event["elapsed_seconds"] = round(perf_counter() - started, 3)
@@ -319,6 +356,9 @@ class _AgentRun:
                 ),
                 "stop_reason": "error",
             }
+            if isinstance(error, ModelError):
+                result["error_code"] = error.code
+                result["error_details"] = error.details
         return {
             "question": question,
             **result,

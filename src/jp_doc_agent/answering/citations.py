@@ -6,10 +6,57 @@ from jp_doc_agent.answering.schema import AnswerDraft
 from jp_doc_agent.llm import ModelError
 
 
-def _resolve_quote(hit: dict, quote: str) -> dict:
+def _quote_diagnostics(hit: dict, quote: str, hits: list[dict]) -> dict:
+    def compact(value):
+        return "".join(value.split())
+
+    target = compact(quote)
+    match_type = "not_in_evidence"
+    if target and target in compact(hit["text"]):
+        match_type = "whitespace_changed"
+    elif any(quote and quote in other["text"] for other in hits):
+        match_type = "other_chunk"
+    elif any(target and target in compact(other["text"]) for other in hits):
+        match_type = "other_chunk_whitespace_changed"
+    else:
+        # 実際に連続・重複している検索スナップショットだけを診断用に結合する。
+        # 欠けた区間を補完したり、この結合本文を引用として受理したりはしない。
+        related = sorted(
+            [
+                other
+                for other in hits
+                if other["document_id"] == hit["document_id"] and "start_char" in other
+            ],
+            key=lambda other: other["start_char"],
+        )
+        combined = ""
+        end = -1
+        for other in related:
+            if other["start_char"] > end:
+                combined = other["text"]
+            else:
+                overlap = end - other["start_char"]
+                combined += other["text"][overlap:]
+            end = max(end, other["end_char"])
+            if target and target in compact(combined):
+                match_type = "spans_chunks"
+                break
+    return {
+        "chunk_id": hit["chunk_id"],
+        "quote_characters": len(quote),
+        "chunk_characters": len(hit["text"]),
+        "match_type": match_type,
+    }
+
+
+def _resolve_quote(hit: dict, quote: str, hits: list[dict]) -> dict:
     start = hit["text"].find(quote)
     if not quote.strip() or start < 0:
-        raise ModelError("引用原文が検索した本文に存在しません。回答を中止しました。")
+        raise ModelError(
+            "引用原文が検索した本文に存在しません。回答を中止しました。",
+            code="quote_mismatch",
+            details=_quote_diagnostics(hit, quote, hits),
+        )
     end = start + len(quote)
     sources = []
     for source in hit["sources"]:
@@ -54,14 +101,17 @@ def resolve_answer(draft: AnswerDraft, hits: list[dict]) -> dict:
         identifiers = []
         for citation in statement.citations:
             if citation.chunk_id not in hit_by_id:
-                raise ModelError("引用先が今回の検索結果に存在しません。回答を中止しました。")
+                raise ModelError(
+                    "引用先が今回の検索結果に存在しません。回答を中止しました。",
+                    code="unknown_chunk",
+                )
             key = (citation.chunk_id, citation.quote)
             if key not in citation_ids:
                 identifier = len(citations) + 1
                 citations.append(
                     {
                         "id": identifier,
-                        **_resolve_quote(hit_by_id[citation.chunk_id], citation.quote),
+                        **_resolve_quote(hit_by_id[citation.chunk_id], citation.quote, hits),
                     }
                 )
                 citation_ids[key] = identifier
