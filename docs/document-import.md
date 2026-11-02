@@ -4,9 +4,9 @@ Fujitsu RAG Hard Benchmark の 5 文書・170 ページを取り込み、ペー�
 
 ## 取得元
 
-[Fujitsu RAG Hard Benchmark](https://github.com/FujitsuResearch/Fujitsu-RAG-Hard-Benchmark) の原文 PDF を使用します。URL と SHA-256 を `resources/sources/fujitsu.json` に固定し、タイトルは評価データの証拠ファイル名と照合できるように元のファイル名を保持します。
+[Fujitsu RAG Hard Benchmark](https://github.com/FujitsuResearch/Fujitsu-RAG-Hard-Benchmark) の原文 PDF を使用します。URL と SHA-256 を `src/jp_doc_agent/resources/sources/fujitsu.json` に固定し、タイトルは評価データの証拠ファイル名と照合できるように元のファイル名を保持します。
 
-PDF の利用条件はソフトウェアと別です。原文はローカルの評価用途で使用し、GitHub や公開文書サービスには掲載しません。正解データも本文テーブルには入れません。[取得元と利用条件](../resources/sources/README.md) を参照してください。
+PDF の利用条件はソフトウェアと別です。原文はローカルの評価用途で使用し、GitHub や公開文書サービスには掲載しません。正解データも本文テーブルには入れません。[取得元と利用条件](data-sources.md) を参照してください。
 
 ## 実行方法
 

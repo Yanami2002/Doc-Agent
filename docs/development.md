@@ -91,9 +91,6 @@ Doc-Agent/
 │   ├── alembic.ini           # マイグレーション設定
 │   ├── docker/init.sql        # pgvector の有効化
 │   └── migrations/           # スキーマ変更履歴
-├── resources/                # 公開データの取得元と評価ケース
-│   ├── sources/              # PDF の取得元とハッシュ
-│   └── evaluation/           # 開発用の質問・許容証拠ページ・期待値
 ├── tests/
 │   ├── conftest.py           # 一時 DB schema と PDF・モデル API fixture
 │   ├── test_ingestion.py    # PDF 取り込みの検証
@@ -107,6 +104,7 @@ Doc-Agent/
 │   └── test_evaluation.py    # 期待値の隔離、判定、失敗記録
 ├── docs/
 │   ├── development.md        # 本ガイド
+│   ├── data-sources.md       # データ取得元と利用条件
 │   ├── document-import.md    # PDF 取り込み
 │   ├── chunking.md           # 分割方法、保存形式、検証結果
 │   ├── embedding.md          # API 接続、ベクトル保存、再開
@@ -116,6 +114,7 @@ Doc-Agent/
 │   ├── web-api.md            # HTTP の起動、型、ステータス、実行記録
 │   └── evaluation.md         # 固定ケース、判定、実 API の成功・失敗
 └── src/jp_doc_agent/
+    ├── resources/            # PDF の取得元と評価ケース
     ├── config.py             # .env から設定を読み込む
     ├── database.py           # DB 接続と pgvector の確認
     ├── cli.py                # CLI の引数と出力
