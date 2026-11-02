@@ -112,7 +112,8 @@ Doc-Agent/
 │   ├── answering.md          # 回答生成、構造化出力、引用の検証
 │   ├── agent.md              # 道具、状態遷移、停止条件、実行記録
 │   ├── web-api.md            # HTTP の起動、型、ステータス、実行記録
-│   └── evaluation.md         # 固定ケース、判定、実 API の成功・失敗
+│   ├── evaluation.md         # 固定ケース、判定、実 API の成功・失敗
+│   └── baseline.md           # 基線評価の選定・再現手順・実行記録
 └── src/jp_doc_agent/
     ├── resources/            # PDF の取得元と評価ケース
     ├── config.py             # .env から設定を読み込む
