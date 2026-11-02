@@ -12,8 +12,8 @@ PDF の利用条件はソフトウェアと別です。原文はローカルの�
 
 ```bash
 # DB とスキーマの準備
-docker compose up -d --wait
-uv run alembic upgrade head
+docker compose --project-directory . -f infra/compose.yaml up -d --wait
+uv run alembic -c infra/alembic.ini upgrade head
 
 # 既定の一覧にある 5 文書を取得・登録
 uv run jp-doc-agent import-documents
@@ -82,7 +82,7 @@ OCR や図表の意味理解には対応していません。解決できない�
 uv run pytest -q
 uv run ruff check .
 uv run ruff format --check .
-uv run alembic check
+uv run alembic -c infra/alembic.ini check
 ```
 
 取り込みのテストでは、重複、ページ番号、ロールバック、並行取り込み、HTTP エラー、サイズ制限、破損・暗号化 PDF、ハッシュ不一致、解析器更新を確認します。DB テストは一時 schema を使用します。小さな人工 PDF は境界条件のテスト用で、開発用の実データは公開ベンチマークから取得します。

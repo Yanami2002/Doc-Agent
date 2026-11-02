@@ -16,7 +16,7 @@ from jp_doc_agent.models import ChunkEmbedding, ChunkSource, Document, DocumentC
 
 def test_cross_page_migration_preserves_old_chunks_and_pages(engine):
     with engine.begin() as connection:
-        config = Config("alembic.ini")
+        config = Config("infra/alembic.ini")
         config.attributes.update(
             connection=connection,
             version_table_schema=connection.scalar(text("SELECT current_schema()")),
@@ -99,7 +99,7 @@ def test_embedding_upgrade_and_downgrade_preserve_source_data(
             }
 
         before = source_snapshot()
-        config = Config("alembic.ini")
+        config = Config("infra/alembic.ini")
         config.attributes.update(
             connection=connection,
             version_table_schema=connection.scalar(text("SELECT current_schema()")),

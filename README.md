@@ -47,8 +47,8 @@ cp .env.example .env
 `.env` の `POSTGRES_PASSWORD` をランダムなパスワードに変更してから起動してください。
 
 ```bash
-docker compose up -d --wait
-uv run alembic upgrade head
+docker compose --project-directory . -f infra/compose.yaml up -d --wait
+uv run alembic -c infra/alembic.ini upgrade head
 uv run jp-doc-agent check-db
 
 # 公開ベンチマークの PDF を取得・登録
@@ -181,7 +181,7 @@ CLI・Web API と同じ Agent フローを固定ケースで検証します。�
 uv run pytest -q
 uv run ruff check .
 uv run ruff format --check .
-uv run alembic check
+uv run alembic -c infra/alembic.ini check
 ```
 
 テストは Web API を含む機能ごとの 9 ファイルに整理しています。共通 fixture は `conftest.py`、スキーマ移行は `test_migrations.py`、回答草案と引用は `test_answering.py`、問答の一連の処理は `test_agent.py` で検証します。PDF・原文・出典・並行更新・ロールバック・再開、Agent の追加調査・停止上限・失敗履歴・固定ケース、HTTP の型・ステータス・接続の終了・並行応答を確認します。DB テストは実際の PostgreSQL の一時 schema で実行し、アプリケーションの業務テーブルを変更しません。

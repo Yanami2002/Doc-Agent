@@ -57,7 +57,7 @@ uv run jp-doc-agent search "対象者と申請条件は？" --document-id 1 --to
 uv run pytest -q tests/test_retrieval.py tests/test_embedding.py
 uv run ruff check .
 uv run ruff format --check .
-uv run alembic check
+uv run alembic -c infra/alembic.ini check
 ```
 
 テストは HTTP を模擬し、実際の PostgreSQL の一時 schema で、余弦距離の順位、K 件制限、文書範囲、異なる設定と旧ベクトルの除外、ページをまたぐ出典、出典の欠落・原文不一致、検索中の再生成、秘密情報を含まない失敗表示を検証します。

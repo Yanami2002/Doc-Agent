@@ -37,7 +37,7 @@ def engine():
     )
     try:
         with engine.begin() as connection:
-            config = Config("alembic.ini")
+            config = Config("infra/alembic.ini")
             config.attributes.update(connection=connection, version_table_schema=schema)
             command.upgrade(config, "head")
         yield engine

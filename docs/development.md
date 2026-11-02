@@ -15,8 +15,8 @@ cp .env.example .env
 `.env` の `POSTGRES_PASSWORD` をランダムなパスワードに変更してから起動します。既に `.env` がある環境では上書きしないでください。
 
 ```bash
-docker compose up -d --wait
-uv run alembic upgrade head
+docker compose --project-directory . -f infra/compose.yaml up -d --wait
+uv run alembic -c infra/alembic.ini upgrade head
 uv run jp-doc-agent check-db
 ```
 
@@ -28,11 +28,11 @@ uv run jp-doc-agent check-db
 
 ```bash
 # DB を起動
-docker compose up -d --wait
+docker compose --project-directory . -f infra/compose.yaml up -d --wait
 
 # 依存関係とスキーマを最新のリポジトリに合わせる
 uv sync --locked
-uv run alembic upgrade head
+uv run alembic -c infra/alembic.ini upgrade head
 
 # ヘルプを確認
 uv run jp-doc-agent --help
@@ -66,14 +66,14 @@ uv run uvicorn jp_doc_agent.api.app:app --host 127.0.0.1 --port 8000 --reload
 uv run pytest -q
 uv run ruff check .
 uv run ruff format --check .
-uv run alembic check
+uv run alembic -c infra/alembic.ini check
 
 # コンテナの状態・ログ
-docker compose ps
-docker compose logs --tail 50 db
+docker compose --project-directory . -f infra/compose.yaml ps
+docker compose --project-directory . -f infra/compose.yaml logs --tail 50 db
 
 # データを保持したまま停止
-docker compose stop
+docker compose --project-directory . -f infra/compose.yaml stop
 ```
 
 文書 ID は `documents` の出力で確認してください。ページは `page <文書ID> <ページ番号>`、チャンクは `chunks <文書ID> --page <ページ番号>` で参照できます。
@@ -87,9 +87,9 @@ jp-doc-agent/
 ├── uv.lock                   # 依存バージョンの固定
 ├── .python-version           # Python バージョン
 ├── .env.example              # 設定のテンプレート
-├── compose.yaml              # PostgreSQL と永続化設定
-├── alembic.ini
-├── infra/                    # DB 初期化とスキーマ変更
+├── infra/                    # DB 設定・初期化とスキーマ変更
+│   ├── compose.yaml          # PostgreSQL と永続化設定
+│   ├── alembic.ini           # マイグレーション設定
 │   ├── docker/init.sql        # pgvector の有効化
 │   └── migrations/           # スキーマ変更履歴
 ├── resources/                # 公開データの取得元と評価ケース
@@ -165,7 +165,7 @@ jp-doc-agent/
 `.env` のパスワードを書き換えても、作成済みの DB のパスワードは変更されません。初期化 SQL は空のボリュームから初めて起動したときにだけ実行されます。既存の DB で拡張を有効にする場合は次のコマンドを使います。
 
 ```bash
-docker compose exec -T db sh -c 'psql -v ON_ERROR_STOP=1 -U "$POSTGRES_USER" -d "$POSTGRES_DB"' < infra/docker/init.sql
+docker compose --project-directory . -f infra/compose.yaml exec -T db sh -c 'psql -v ON_ERROR_STOP=1 -U "$POSTGRES_USER" -d "$POSTGRES_DB"' < infra/docker/init.sql
 ```
 
 Docker に接続できない場合は Docker Desktop の起動を確認してください。テストの DB fixture は一時 schema を作成・削除するため、その権限が必要です。

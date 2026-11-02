@@ -8,8 +8,8 @@ FastAPI で文書参照と日本語問答を HTTP から実行します。問答
 
 ```bash
 uv sync --locked
-docker compose up -d --wait
-uv run alembic upgrade head
+docker compose --project-directory . -f infra/compose.yaml up -d --wait
+uv run alembic -c infra/alembic.ini upgrade head
 uv run uvicorn jp_doc_agent.api.app:app --host 127.0.0.1 --port 8000 --reload
 ```
 
@@ -95,7 +95,7 @@ Agent の実行中に DB 障害が起きた場合も 503 で履歴を返しま�
 uv run pytest -q tests/test_api.py
 uv run ruff check .
 uv run ruff format --check .
-uv run alembic check
+uv run alembic -c infra/alembic.ini check
 ```
 
 実 DB の一時スキーマと模擬 API で、回答・根拠不足、ページをまたぐ引用、入力・設定・文書の検証、タイムアウト、引用不一致、実行記録・保存失敗、接続の終了、DB 障害、長い問答と健康チェックの並行応答を確認しています。旧 `mode` 項目は未定義入力として 422 を返し、モデル API を呼びません。

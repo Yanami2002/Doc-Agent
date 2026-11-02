@@ -70,7 +70,7 @@ API 接続のタイムアウトは 1 回 30 秒、SDK の再試行上限は 2 �
 uv run pytest -q tests/test_answering.py tests/test_agent.py tests/test_evaluation.py
 uv run ruff check .
 uv run ruff format --check .
-uv run alembic check
+uv run alembic -c infra/alembic.ini check
 ```
 
 模擬 API と一時 DB schema で、草案の構造・全結論の引用・未知 chunk の拒否・原文の完全一致・ページをまたぐ位置・重複引用・根拠不足・API 失敗・並行更新・CLI とクライアント終了を検証します。

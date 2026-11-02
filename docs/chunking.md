@@ -6,8 +6,8 @@
 
 ```bash
 uv sync --locked
-docker compose up -d --wait
-uv run alembic upgrade head
+docker compose --project-directory . -f infra/compose.yaml up -d --wait
+uv run alembic -c infra/alembic.ini upgrade head
 
 # 登録済みの全文書を分割
 uv run jp-doc-agent chunk-documents
@@ -98,7 +98,7 @@ page.text[source.start_char : source.end_char] == (
 `0003_cross_page_chunks` のマイグレーションは、既存のページ内チャンクを削除せずに出典範囲を追加し、文書全体での文字位置とチャンク順序に変換します。分割設定はリセットされるため、続けて `chunk-documents` を実行して新しい方針で生成してください。元の PDF とページ本文は変更しません。
 
 ```bash
-uv run alembic upgrade head
+uv run alembic -c infra/alembic.ini upgrade head
 uv run jp-doc-agent chunk-documents
 ```
 

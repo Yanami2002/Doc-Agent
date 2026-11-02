@@ -269,7 +269,7 @@ def main() -> int:
     except SQLAlchemyError:
         print(
             "データベース操作に失敗しました。接続設定と "
-            "uv run alembic upgrade head の実行状況を確認してください。",
+            "uv run alembic -c infra/alembic.ini upgrade head の実行状況を確認してください。",
             file=sys.stderr,
         )
         return 1

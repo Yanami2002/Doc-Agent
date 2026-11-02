@@ -12,8 +12,8 @@ OPENAI_API_KEY=your_api_key
 
 ```bash
 uv sync --locked
-docker compose up -d --wait
-uv run alembic upgrade head
+docker compose --project-directory . -f infra/compose.yaml up -d --wait
+uv run alembic -c infra/alembic.ini upgrade head
 
 # 全文書の未処理チャンクをベクトル化
 uv run jp-doc-agent embed-chunks
@@ -67,7 +67,7 @@ CLI の `embedded` は今回保存した件数、`skipped` は再利用した件
 uv run pytest -q tests/test_embedding.py tests/test_migrations.py
 uv run ruff check .
 uv run ruff format --check .
-uv run alembic check
+uv run alembic -c infra/alembic.ini check
 ```
 
 HTTP 応答のモックと実際の PostgreSQL の一時 schema を使用して、API 入力、応答の並び、異常応答、SDK の再試行、バッチ保存、再開、本文変更、並行実行、削除の連鎖、マイグレーションを検証します。テストは実際の API に接続しません。
