@@ -116,11 +116,38 @@ def build_parser() -> argparse.ArgumentParser:
     evaluation.add_argument(
         "--output", type=Path, help="結果 JSON の保存先（省略時は data/reports）"
     )
+    comparison = commands.add_parser("compare-rag", help="知識のみ・単回 RAG・Agent の対照評価")
+    comparison.add_argument("--cases", type=Path, default=resources / "evaluation/baseline-v1.json")
+    comparison.add_argument(
+        "--rubric", type=Path, default=resources / "evaluation/comparison-facts-v1.json"
+    )
+    comparison.add_argument("--repeats", type=int, default=3)
+    comparison.add_argument("--seed", type=int, default=20261102)
+    comparison.add_argument(
+        "--output", type=Path, default=Path("data/reports/rag-comparison-v1.json")
+    )
+    comparison.add_argument(
+        "--public-output", type=Path, help="原文を含まない数値だけの公開用 JSON"
+    )
+    comparison.add_argument("--resume", action="store_true", help="同じ設定の保存済み評価を再開")
+    plotting = commands.add_parser("plot-evaluation", help="評価 JSON から比較図と検索曲線を作成")
+    plotting.add_argument("--report", type=Path, required=True)
+    plotting.add_argument("--output-dir", type=Path, default=Path("docs/assets"))
     return parser
 
 
 def main() -> int:
     args = build_parser().parse_args()
+
+    if args.command == "plot-evaluation":
+        from jp_doc_agent.evaluation.plots import plot_report
+
+        try:
+            plot_report(json.loads(args.report.read_text()), args.output_dir)
+        except (ValueError, OSError) as error:
+            print(str(error), file=sys.stderr)
+            return 1
+        return 0
 
     if args.command == "fetch-benchmark":
         try:
@@ -142,7 +169,42 @@ def main() -> int:
 
     engine = create_database_engine(settings)
     try:
-        if args.command == "embed-chunks":
+        if args.command == "compare-rag":
+            from jp_doc_agent.evaluation.comparison import (
+                load_rubric,
+                public_report,
+                run_comparison,
+            )
+
+            cases = load_cases(args.cases)
+            rubric = load_rubric(args.rubric, cases)
+            answer_settings = AnsweringSettings()
+            with _openai_encoder() as encoder:
+                report = run_comparison(
+                    engine,
+                    encoder,
+                    OpenAIAnswerGenerator(
+                        encoder.client,
+                        model=answer_settings.answer_model,
+                        max_output_tokens=answer_settings.answer_max_output_tokens,
+                    ),
+                    cases,
+                    rubric,
+                    args.output,
+                    repeats=args.repeats,
+                    seed=args.seed,
+                    resume=args.resume,
+                )
+            if args.public_output:
+                write_report(public_report(report), args.public_output)
+            print(json.dumps(report["summary"], ensure_ascii=False, indent=2))
+            return int(
+                any(
+                    entry["generation_errors"] or entry["judge_errors"]
+                    for entry in report["summary"]["modes"].values()
+                )
+            )
+        elif args.command == "embed-chunks":
             if not 1 <= args.batch_size <= 32:
                 raise ValueError("batch-size は 1〜32 にしてください。")
             with _openai_encoder() as encoder:

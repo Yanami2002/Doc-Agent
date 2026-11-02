@@ -1,0 +1,52 @@
+{
+  "fujitsu-66": [
+    {"id":"profit","criterion":"FY2023の営業利益は1,602億円で、前期から1,753億円減少した。調整後営業利益と混同しない。"},
+    {"id":"one_off","criterion":"FY2023の営業利益に事業再編・構造改革などの一過性損失1,234億円が含まれる。別年度の約300億円で代用しない。"},
+    {"id":"adjusted","criterion":"一過性要因を除く調整後営業利益は2,836億円で、前期から371億円減少した。"},
+    {"id":"network","criterion":"ハードウェアソリューションのネットワークプロダクトは、前期の高い需要の反動減の影響を受けた。"},
+    {"id":"semiconductor","criterion":"デバイスソリューションの半導体パッケージ等は物量減の影響を受けた。"},
+    {"id":"utilization","criterion":"半導体パッケージ等の物量減に伴う操業低下も減益に影響した。"}
+  ],
+  "fujitsu-77": [
+    {"id":"manufacturing","criterion":"Vertical areasの4分野の一つはSustainable Manufacturingである。"},
+    {"id":"consumer","criterion":"Vertical areasの4分野の一つはConsumer Experienceである。"},
+    {"id":"health","criterion":"Vertical areasの4分野の一つはHealthy Livingである。"},
+    {"id":"society","criterion":"Vertical areasの4分野の一つはTrusted Societyである。"},
+    {"id":"growth_role","criterion":"Vertical areasは社会課題の解決を狙い、Uvanceの中でも収益性が高く今後の成長ドライバーと位置付けられる。"},
+    {"id":"margin_target","criterion":"2025年度のVertical areasの売上総利益率目標は40%以上である。実績と断定しない。"},
+    {"id":"uvance_growth","criterion":"Fujitsu Uvanceの2023年度売上収益は3,679億円で前年比84%増、サービスソリューション内の比率は約17%へ拡大した。Vertical単体の売上と混同しない。"},
+    {"id":"value_pricing","criterion":"2023年度下期以降に投入した約30のVertical areasのオファリングのうち、3分の2が価値ベースの価格設定を採用した。"}
+  ],
+  "authored-uvance-orders": [
+    {"id":"revenue","criterion":"Fujitsu Uvanceの2023年度売上収益は3,679億円である。"},
+    {"id":"revenue_growth","criterion":"同売上収益の前期比伸長率は84%増である。"},
+    {"id":"orders","criterion":"Fujitsu Uvanceの2023年度受注実績は4,493億円である。"},
+    {"id":"orders_growth","criterion":"同受注実績の前期比伸長率は80%増である。"}
+  ],
+  "authored-ubiquitous-profit": [
+    {"id":"profit","criterion":"ユビキタスソリューションの2023年度調整後営業利益は242億円である。"},
+    {"id":"increase","criterion":"同利益は前期より155億円増加した。"},
+    {"id":"measures","criterion":"為替影響を含む部材価格上昇への対応として、コストダウンと価格転嫁の両方を進めた。"}
+  ],
+  "authored-capital-investment": [
+    {"id":"total","criterion":"2023年度の富士通全社の設備投資総額は1,297億円である。"},
+    {"id":"service","criterion":"2023年度のサービスソリューションへの設備投資は315億円である。"},
+    {"id":"device","criterion":"2023年度のデバイスソリューションへの設備投資は785億円である。"}
+  ],
+  "authored-gk-acquisition": [
+    {"id":"date","criterion":"GK Software SEが富士通の連結子会社となったのは2023年5月16日である。"},
+    {"id":"buyer","criterion":"公開買付けを実施したのはFujitsu ND Solutions AGである。"}
+  ],
+  "authored-plan-themes": [
+    {"id":"portfolio","criterion":"2023〜2025年度中期計画の主な取り組みに、事業モデルと事業ポートフォリオの変革がある。"},
+    {"id":"modernization","criterion":"同計画の主な取り組みに、顧客のIT資産のモダナイゼーションの確実な支援がある。"},
+    {"id":"overseas","criterion":"同計画の主な取り組みに、海外ビジネスの収益性向上がある。"}
+  ],
+  "authored-value-pricing": [
+    {"id":"cost_based","criterion":"従来のSI事業は、開発にかかる人件費などのコストを積み上げて価格を見積もる。"},
+    {"id":"value_based","criterion":"Uvanceの多くのオファリングでは顧客に提供する価値を金銭的価値へ換算して価格を設定する。"},
+    {"id":"usage_based","criterion":"Uvanceではコンピューティングリソース使用量などに応じた従量課金モデルも使う。すべてが同一方式とは断定しない。"}
+  ],
+  "unsupported-2035-dividend": [],
+  "unsupported-individual-salary": []
+}
