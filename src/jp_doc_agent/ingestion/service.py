@@ -112,7 +112,7 @@ def import_pdf(engine: Engine, pdf: PdfFile, *, title: str, source_url: str, dat
 def import_manifest(engine: Engine, manifest: Path, data_dir: Path) -> list[dict]:
     sources = TypeAdapter(list[Source]).validate_json(manifest.read_text(encoding="utf-8"))
     results = []
-    with httpx.Client(timeout=30, headers={"User-Agent": "JP-Doc-Agent/0.1"}) as client:
+    with httpx.Client(timeout=30, headers={"User-Agent": "Doc-Agent/0.1"}) as client:
         for source in sources:
             result = {"title": source.title, "source_url": str(source.url)}
             try:

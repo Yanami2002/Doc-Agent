@@ -16,25 +16,25 @@ docker compose --project-directory . -f infra/compose.yaml up -d --wait
 uv run alembic -c infra/alembic.ini upgrade head
 
 # 既定の一覧にある 5 文書を取得・登録
-uv run jp-doc-agent import-documents
+uv run doc-agent import-documents
 
 # 正解データ・利用規約を別ディレクトリに取得
-uv run jp-doc-agent fetch-benchmark
+uv run doc-agent fetch-benchmark
 
 # 文書一覧を確認
-uv run jp-doc-agent documents
+uv run doc-agent documents
 
 # 文書 1 の物理ページ 1 を参照（ID は一覧に合わせて変更）
-uv run jp-doc-agent page 1 1
+uv run doc-agent page 1 1
 
 # 登録した本文からチャンクを生成
-uv run jp-doc-agent chunk-documents
+uv run doc-agent chunk-documents
 ```
 
 ローカルファイルも取り込めます。
 
 ```bash
-uv run jp-doc-agent import-pdf /absolute/path/document.pdf --title "文書タイトル"
+uv run doc-agent import-pdf /absolute/path/document.pdf --title "文書タイトル"
 ```
 
 `--source-url` で取得元 URL、`--dataset` でデータセット名を指定できます。省略時はローカルファイルの URI と `local` を保存します。別の取得元一覧を使う場合は `import-documents --manifest <一覧のパス>` を指定してください。

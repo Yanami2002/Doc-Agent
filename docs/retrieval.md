@@ -7,14 +7,14 @@
 `.env` に DB 設定と `OPENAI_API_KEY` が必要です。対象文書の取り込み・分割・[ベクトル化](embedding.md) を先に完了してください。
 
 ```bash
-uv run jp-doc-agent documents
-uv run jp-doc-agent embedding-status
+uv run doc-agent documents
+uv run doc-agent embedding-status
 
 # 全文書を検索（既定値は上位 5 件）
-uv run jp-doc-agent search "2024年度第2四半期の売上収益はいくらですか？"
+uv run doc-agent search "2024年度第2四半期の売上収益はいくらですか？"
 
 # 文書を限定し、上位 3 件を返す（1 は ID の例）
-uv run jp-doc-agent search "対象者と申請条件は？" --document-id 1 --top-k 3
+uv run doc-agent search "対象者と申請条件は？" --document-id 1 --top-k 3
 ```
 
 `top-k` は 1〜100 です。質問は空白以外を含む 1〜8,191 Token とし、`cl100k_base` で検証します。モデルの入力上限に余裕を取った制限で、チャンクの 300 Token 上限とは独立しています。長い質問を切り詰めたり分割したりはしません。質問の本文は接頭辞なしで API に送り、質問ベクトルは DB に保存しません。

@@ -40,7 +40,7 @@ def create_app(*, engine: Engine | None = None, report_dir: Path | None = None) 
                 database.dispose()
 
     app = FastAPI(
-        title="JP Doc Agent API",
+        title="Doc-Agent API",
         description="日本語 PDF の文書参照、出典付き問答、LangGraph による追加調査。",
         version="0.1.0",
         lifespan=lifespan,

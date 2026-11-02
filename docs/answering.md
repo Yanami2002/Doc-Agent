@@ -20,10 +20,10 @@ OPENAI_ANSWER_MAX_OUTPUT_TOKENS=2048
 
 ```bash
 # 文書 ID は documents で確認（1 は例）
-uv run jp-doc-agent ask "2024年度第2四半期の売上収益はいくらですか？" --document-id 1
+uv run doc-agent ask "2024年度第2四半期の売上収益はいくらですか？" --document-id 1
 
 # 全文書を対象に調査し、実行記録を保存
-uv run jp-doc-agent ask "2021年1月1日時点の富士通の組織構成はどうなっていますか？" \
+uv run doc-agent ask "2021年1月1日時点の富士通の組織構成はどうなっていますか？" \
   --top-k 5 --output data/reports/organization.json
 ```
 

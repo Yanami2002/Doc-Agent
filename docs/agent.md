@@ -7,15 +7,15 @@
 既存の `.env` の `OPENAI_API_KEY`、回答モデルと出力 Token 上限を使います。
 
 ```bash
-uv run jp-doc-agent ask "2021年1月1日時点の富士通の組織構成はどうなっていますか？"
+uv run doc-agent ask "2021年1月1日時点の富士通の組織構成はどうなっていますか？"
 
 # 文書 ID は documents で確認（1 は例）
-uv run jp-doc-agent ask "この資料の対象条件は？" \
+uv run doc-agent ask "この資料の対象条件は？" \
   --document-id 1 --top-k 5 --max-searches 3 --max-tool-calls 6 \
   --output data/reports/agent-example.json
 
 # 同じ問答フローを開発用ケースで検証
-uv run jp-doc-agent evaluate-rag --output data/reports/agent-evaluation.json
+uv run doc-agent evaluate-rag --output data/reports/agent-evaluation.json
 ```
 
 `--top-k` は 1〜20 です。`--output` を省略すると、実行記録を時刻付きの `data/reports/agent-<時刻>.json` に保存します。明示した保存先は上書きします。[Web API](web-api.md) の `POST /ask` からも実行できます。質問・回答を DB に保存する機能はまだありません。

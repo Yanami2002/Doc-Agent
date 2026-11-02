@@ -17,7 +17,7 @@ cp .env.example .env
 ```bash
 docker compose --project-directory . -f infra/compose.yaml up -d --wait
 uv run alembic -c infra/alembic.ini upgrade head
-uv run jp-doc-agent check-db
+uv run doc-agent check-db
 ```
 
 接続確認に成功すると `status: ok`、PostgreSQL と pgvector のバージョン、ベクトル距離 `1.0` が返ります。`check-db` は読み取り専用で、業務テーブルは作成しません。
@@ -35,29 +35,29 @@ uv sync --locked
 uv run alembic -c infra/alembic.ini upgrade head
 
 # ヘルプを確認
-uv run jp-doc-agent --help
+uv run doc-agent --help
 
 # PDF と評価データを取得
-uv run jp-doc-agent import-documents
-uv run jp-doc-agent fetch-benchmark
+uv run doc-agent import-documents
+uv run doc-agent fetch-benchmark
 
 # 最大 300 Token・重複最大 30 Token でチャンクを生成して文書一覧を確認
-uv run jp-doc-agent chunk-documents
-uv run jp-doc-agent documents
+uv run doc-agent chunk-documents
+uv run doc-agent documents
 
 # API キー設定後にベクトル化し、保存件数を確認
-uv run jp-doc-agent embed-chunks
-uv run jp-doc-agent embedding-status
+uv run doc-agent embed-chunks
+uv run doc-agent embedding-status
 
 # 関連する本文と出典を検索
-uv run jp-doc-agent search "2024年度第2四半期の売上収益はいくらですか？" --top-k 5
+uv run doc-agent search "2024年度第2四半期の売上収益はいくらですか？" --top-k 5
 
 # 必要な追加調査を含む日本語回答・原文引用・実行記録を生成
-uv run jp-doc-agent ask "2024年度第2四半期の売上収益はいくらですか？"
-uv run jp-doc-agent ask "2021年1月1日時点の富士通の組織構成はどうなっていますか？"
+uv run doc-agent ask "2024年度第2四半期の売上収益はいくらですか？"
+uv run doc-agent ask "2021年1月1日時点の富士通の組織構成はどうなっていますか？"
 
 # 正式な問答フローを固定ケースで検証
-uv run jp-doc-agent evaluate-rag
+uv run doc-agent evaluate-rag
 
 # HTTP API を起動し、ブラウザーで http://127.0.0.1:8000/docs を開く
 uv run uvicorn jp_doc_agent.api.app:app --host 127.0.0.1 --port 8000 --reload
@@ -81,7 +81,7 @@ docker compose --project-directory . -f infra/compose.yaml stop
 ## ファイル構成
 
 ```text
-jp-doc-agent/
+Doc-Agent/
 ├── README.md                 # 概要、実装状況、技術選定、評価方針
 ├── pyproject.toml            # 依存関係、CLI、検査設定
 ├── uv.lock                   # 依存バージョンの固定

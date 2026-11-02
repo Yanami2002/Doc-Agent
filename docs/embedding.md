@@ -16,14 +16,14 @@ docker compose --project-directory . -f infra/compose.yaml up -d --wait
 uv run alembic -c infra/alembic.ini upgrade head
 
 # 全文書の未処理チャンクをベクトル化
-uv run jp-doc-agent embed-chunks
+uv run doc-agent embed-chunks
 
 # 1 文書だけ処理（ID は documents で確認）
-uv run jp-doc-agent embed-chunks --document-id 1 --batch-size 16
+uv run doc-agent embed-chunks --document-id 1 --batch-size 16
 
 # API を呼ばずに、保存済み・未処理件数を確認
-uv run jp-doc-agent embedding-status
-uv run jp-doc-agent embedding-status --document-id 1
+uv run doc-agent embedding-status
+uv run doc-agent embedding-status --document-id 1
 ```
 
 `batch-size` は 1〜32、既定値は 32 です。取り込み・分割・保存件数の確認には API キーは不要です。未分割の文書は処理を中止し、`chunk-documents` の実行を案内します。

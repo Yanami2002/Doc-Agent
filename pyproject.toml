@@ -1,5 +1,5 @@
 [project]
-name = "jp-doc-agent"
+name = "doc-agent"
 version = "0.1.0"
 description = "公開データセットを用いた日本語ドキュメント調査エージェント。"
 readme = "README.md"
@@ -22,6 +22,7 @@ dependencies = [
 ]
 
 [project.scripts]
+doc-agent = "jp_doc_agent.cli:main"
 jp-doc-agent = "jp_doc_agent.cli:main"
 
 [dependency-groups]

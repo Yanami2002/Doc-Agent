@@ -5,10 +5,10 @@
 ## 実行と保存
 
 ```bash
-uv run jp-doc-agent evaluate-rag
+uv run doc-agent evaluate-rag
 
 # ケースと保存先を明示
-uv run jp-doc-agent evaluate-rag \
+uv run doc-agent evaluate-rag \
   --cases resources/evaluation/questions.json \
   --output data/reports/agent-evaluation.json
 ```

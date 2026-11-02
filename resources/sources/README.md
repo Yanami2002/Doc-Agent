@@ -6,7 +6,7 @@
 - `fujitsu.json`: このコミットから直接取得する 5 文書の URL と SHA-256。
 - `title`: 正解データの `rationales.file_name` と照合できるよう、元のファイル名を保持。
 - 原文 PDF と正解データ: Git 管理対象外の `data/` に保存。
-- 正解データ: 100 問の回答、証拠ファイル名、1 始まりのページ番号、難度などを含む YAML。`uv run jp-doc-agent fetch-benchmark` で改変せずに取得。
+- 正解データ: 100 問の回答、証拠ファイル名、1 始まりのページ番号、難度などを含む YAML。`uv run doc-agent fetch-benchmark` で改変せずに取得。
 
 ## 現在の部分集合
 

@@ -1,4 +1,4 @@
-# JP Doc Agent｜日本語ドキュメント調査エージェント
+# Doc-Agent｜日本語ドキュメント調査エージェント
 
 公開されている日本語 PDF を対象に、根拠となる文書とページ番号を確認できる調査支援アプリケーションを開発しています。日本語 RAG、ツール呼び出し、評価、バックエンドのデータ管理を一つのプロジェクトで扱います。
 
@@ -49,44 +49,44 @@ cp .env.example .env
 ```bash
 docker compose --project-directory . -f infra/compose.yaml up -d --wait
 uv run alembic -c infra/alembic.ini upgrade head
-uv run jp-doc-agent check-db
+uv run doc-agent check-db
 
 # 公開ベンチマークの PDF を取得・登録
-uv run jp-doc-agent import-documents
+uv run doc-agent import-documents
 
 # 評価用の正解データを本文とは別に取得
-uv run jp-doc-agent fetch-benchmark
+uv run doc-agent fetch-benchmark
 
 # 登録済みページを分割
-uv run jp-doc-agent chunk-documents
-uv run jp-doc-agent documents
+uv run doc-agent chunk-documents
+uv run doc-agent documents
 ```
 
 一覧に表示された文書 ID を使って参照します。次の `1` は文書 ID の例です。
 
 ```bash
-uv run jp-doc-agent page 1 1
-uv run jp-doc-agent chunks 1 --page 1 --limit 5
+uv run doc-agent page 1 1
+uv run doc-agent chunks 1 --page 1 --limit 5
 ```
 
 詳しい準備・確認方法は [開発ガイド](docs/development.md)、[PDF 取り込み](docs/document-import.md)、[チャンク分割](docs/chunking.md)、[ベクトル化](docs/embedding.md)、[ベクトル検索](docs/retrieval.md)、[回答と引用検証](docs/answering.md)、[Agent](docs/agent.md)、[Web API](docs/web-api.md)、[固定ケース検証](docs/evaluation.md) を参照してください。取り込みと分割に API キーは不要です。ベクトル化・検索・回答生成には `.env` の `OPENAI_API_KEY` が必要です。
 
 ```bash
-uv run jp-doc-agent embed-chunks
-uv run jp-doc-agent embedding-status
+uv run doc-agent embed-chunks
+uv run doc-agent embedding-status
 
 # 質問に関連する本文・出典を上位 5 件返す
-uv run jp-doc-agent search "2024年度第2四半期の売上収益はいくらですか？" --top-k 5
+uv run doc-agent search "2024年度第2四半期の売上収益はいくらですか？" --top-k 5
 
 # 指定文書に限定（1 は ID の例）
-uv run jp-doc-agent search "対象者と申請条件は？" --document-id 1
+uv run doc-agent search "対象者と申請条件は？" --document-id 1
 
 # 検索・根拠の判断・必要な追加調査を行い、回答と実行記録を保存
-uv run jp-doc-agent ask "2024年度第2四半期の売上収益はいくらですか？" --document-id 1
-uv run jp-doc-agent ask "2021年1月1日時点の富士通の組織構成はどうなっていますか？"
+uv run doc-agent ask "2024年度第2四半期の売上収益はいくらですか？" --document-id 1
+uv run doc-agent ask "2021年1月1日時点の富士通の組織構成はどうなっていますか？"
 
 # 少数の固定ケースで成功・失敗を記録
-uv run jp-doc-agent evaluate-rag
+uv run doc-agent evaluate-rag
 
 # HTTP API を起動（http://127.0.0.1:8000/docs で試す）
 uv run uvicorn jp_doc_agent.api.app:app --host 127.0.0.1 --port 8000 --reload

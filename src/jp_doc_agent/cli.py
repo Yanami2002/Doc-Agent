@@ -44,7 +44,7 @@ def _openai_encoder() -> Iterator[OpenAIEncoder]:
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="JP Doc Agent 開発用 CLI")
+    parser = argparse.ArgumentParser(description="Doc-Agent 開発用 CLI")
     commands = parser.add_subparsers(dest="command", required=True)
     commands.add_parser("check-db", help="PostgreSQL と pgvector の接続を確認")
     commands.add_parser("documents", help="登録済み文書の一覧を表示")

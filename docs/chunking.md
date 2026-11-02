@@ -10,17 +10,17 @@ docker compose --project-directory . -f infra/compose.yaml up -d --wait
 uv run alembic -c infra/alembic.ini upgrade head
 
 # 登録済みの全文書を分割
-uv run jp-doc-agent chunk-documents
+uv run doc-agent chunk-documents
 
 # 1 文書だけ分割（ID は documents の出力に合わせる）
-uv run jp-doc-agent chunk-documents --document-id 1
+uv run doc-agent chunk-documents --document-id 1
 
 # 最大 Token 数と重複の上限を変更して再生成
-uv run jp-doc-agent chunk-documents --document-id 1 --chunk-size 250 --chunk-overlap 25
+uv run doc-agent chunk-documents --document-id 1 --chunk-size 250 --chunk-overlap 25
 
 # 分割結果、原文位置、取得元、使用設定を確認
-uv run jp-doc-agent chunks 1 --page 1 --limit 5
-uv run jp-doc-agent chunks 1 --limit 20 --offset 20
+uv run doc-agent chunks 1 --page 1 --limit 5
+uv run doc-agent chunks 1 --limit 20 --offset 20
 ```
 
 `chunks` の `limit` は 1〜100、既定値は 20 です。`total` はページで絞り込んだ後の全件数、`offset` は先頭からスキップする件数です。新規取り込み直後の文書は `total: 0`、`chunking_config: null` で返します。
@@ -99,7 +99,7 @@ page.text[source.start_char : source.end_char] == (
 
 ```bash
 uv run alembic -c infra/alembic.ini upgrade head
-uv run jp-doc-agent chunk-documents
+uv run doc-agent chunk-documents
 ```
 
 ダウングレード時は、複数ページをカバーするチャンクを旧形式で表現できないため、派生データであるチャンク・出典範囲・分割設定をクリアします。文書とページ本文は保持され、対応するコードで再生成できます。
